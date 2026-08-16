@@ -1,593 +1,1398 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Light Control</title>
-    <style>
-        /* =========================
-           GENERAL
-        ========================= */
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #07111f;
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
 
-        /* =========================
-           CONTAINER
-        ========================= */
-        .container {
-            width: 100%;
-            max-width: 430px;
-            background: #102333;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 0 25px rgba(0,0,0,.5);
-            text-align: center;
-        }
-        .hidden { display: none !important; }
+<meta charset="UTF-8">
 
-        /* =========================
-           HEADINGS
-        ========================= */
-        h1 { margin-top: 0; margin-bottom: 10px; }
-        h2 { margin-top: 0; }
-        .subtitle { color: #94a3b8; margin-bottom: 25px; }
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-        /* =========================
-           INPUT
-        ========================= */
-        input {
-            width: 100%;
-            padding: 14px;
-            margin: 8px 0;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            background: #1e293b;
-            color: white;
-            font-size: 16px;
-            outline: none;
-        }
-        input:focus { border-color: #38bdf8; }
+<title>Smart Light Control</title>
 
-        /* =========================
-           BUTTON
-        ========================= */
-        button {
-            width: 100%;
-            padding: 14px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        button:hover { opacity: .9; }
+<style>
 
-        /* =========================
-           BUTTON COLORS
-        ========================= */
-        .login { background: #2563eb; color: white; }
-        .signup { background: #7c3aed; color: white; }
-        .on { background: #16a34a; color: white; }
-        .off { background: #dc2626; color: white; }
-        .logout { background: #475569; color: white; }
-        .admin { background: #f59e0b; color: #111827; }
-        .back { background: #334155; color: white; }
+*{
+    box-sizing:border-box;
+}
 
-        /* =========================
-           LINKS & MESSAGES
-        ========================= */
-        .link {
-            color: #60a5fa;
-            cursor: pointer;
-            margin-top: 18px;
-        }
-        .message {
-            color: #f87171;
-            min-height: 22px;
-            margin-top: 10px;
-        }
-        .success { color: #4ade80; }
+body{
+    margin:0;
+    min-height:100vh;
 
-        /* =========================
-           LIGHT STATUS
-        ========================= */
-        .status {
-            font-size: 25px;
-            font-weight: bold;
-            padding: 18px;
-            margin: 20px 0;
-            border-radius: 12px;
-            background: #172b3a;
-        }
-        .operation {
-            margin-top: 20px;
-            padding: 15px;
-            background: #172b3a;
-            border-radius: 12px;
-            line-height: 1.8;
-        }
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-        /* =========================
-           ADMIN
-        ========================= */
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .admin-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            background: #f59e0b;
-            color: #111827;
-            font-weight: bold;
-            font-size: 13px;
-        }
-        .user-card {
-            background: #172b3a;
-            padding: 15px;
-            border-radius: 12px;
-            margin: 10px 0;
-            text-align: left;
-        }
-        .user-name { font-size: 18px; font-weight: bold; }
-        .user-email { font-size: 14px; color: #94a3b8; margin-top: 5px; }
-        .user-role { font-size: 13px; margin-top: 8px; color: #38bdf8; }
-        .user-status { font-size: 13px; margin-top: 5px; }
-        .allow { background: #16a34a; color: white; }
-        .deny { background: #dc2626; color: white; }
-        .small { font-size: 13px; color: #94a3b8; }
-    </style>
+    padding:20px;
+
+    font-family:Arial,sans-serif;
+
+    background:#07111f;
+    color:white;
+}
+
+.container{
+    width:100%;
+    max-width:430px;
+
+    background:#102333;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:0 0 30px rgba(0,0,0,.5);
+
+    text-align:center;
+}
+
+.hidden{
+    display:none !important;
+}
+
+h1{
+    margin-top:0;
+}
+
+.subtitle{
+    color:#94a3b8;
+    margin-bottom:25px;
+}
+
+input{
+    width:100%;
+
+    padding:14px;
+
+    margin:8px 0;
+
+    border-radius:10px;
+
+    border:1px solid #475569;
+
+    background:#1e293b;
+
+    color:white;
+
+    font-size:16px;
+
+    outline:none;
+}
+
+input:focus{
+    border-color:#38bdf8;
+}
+
+button{
+    width:100%;
+
+    padding:14px;
+
+    margin:8px 0;
+
+    border:0;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.login{
+    background:#2563eb;
+    color:white;
+}
+
+.signup{
+    background:#7c3aed;
+    color:white;
+}
+
+.on{
+    background:#16a34a;
+    color:white;
+}
+
+.off{
+    background:#dc2626;
+    color:white;
+}
+
+.logout{
+    background:#475569;
+    color:white;
+}
+
+.adminButton{
+    background:#f59e0b;
+    color:#111827;
+}
+
+.back{
+    background:#334155;
+    color:white;
+}
+
+.allow{
+    background:#16a34a;
+    color:white;
+}
+
+.deny{
+    background:#dc2626;
+    color:white;
+}
+
+.link{
+    color:#60a5fa;
+    cursor:pointer;
+    margin-top:18px;
+}
+
+.message{
+    min-height:22px;
+    color:#f87171;
+}
+
+.success{
+    color:#4ade80;
+}
+
+.status{
+    margin:20px 0;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    background:#172b3a;
+
+    font-size:25px;
+
+    font-weight:bold;
+}
+
+.operation{
+    margin-top:20px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:#172b3a;
+
+    line-height:1.8;
+}
+
+.adminHeader{
+    margin-bottom:20px;
+}
+
+.adminBadge{
+    display:inline-block;
+
+    padding:6px 14px;
+
+    border-radius:20px;
+
+    background:#f59e0b;
+
+    color:#111827;
+
+    font-weight:bold;
+}
+
+.userCard{
+    background:#172b3a;
+
+    padding:15px;
+
+    margin:10px 0;
+
+    border-radius:12px;
+
+    text-align:left;
+}
+
+.userName{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.userEmail{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.userRole{
+    color:#38bdf8;
+    margin-top:8px;
+}
+
+.userStatus{
+    margin-top:5px;
+    margin-bottom:8px;
+}
+
+</style>
+
 </head>
+
+
 <body>
 
-<!-- =========================
-     LOGIN PAGE
-========================= -->
+
+<!-- ==================================================
+     LOGIN
+================================================== -->
+
 <div id="loginPage" class="container">
+
     <h1>🔐 Smart Light</h1>
-    <p class="subtitle">Secure Access</p>
-    
-    <input type="email" id="loginEmail" placeholder="Email">
-    <input type="password" id="loginPassword" placeholder="Password">
-    <button class="login" id="loginBtn">LOGIN</button>
-    
-    <p class="link" id="showSignup">Create new account</p>
-    <p class="message" id="loginMessage"></p>
+
+    <p class="subtitle">
+        Secure Access
+    </p>
+
+    <input
+        type="email"
+        id="loginEmail"
+        placeholder="Email"
+        autocomplete="email">
+
+    <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+        autocomplete="current-password">
+
+    <button
+        id="loginBtn"
+        class="login">
+
+        LOGIN
+
+    </button>
+
+    <p
+        id="showSignup"
+        class="link">
+
+        Create new account
+
+    </p>
+
+    <p
+        id="loginMessage"
+        class="message">
+    </p>
+
 </div>
 
-<!-- =========================
-     SIGN UP PAGE
-========================= -->
-<div id="signupPage" class="container hidden">
+
+
+<!-- ==================================================
+     SIGN UP
+================================================== -->
+
+<div
+    id="signupPage"
+    class="container hidden">
+
     <h1>📝 Create Account</h1>
-    <p class="subtitle">Register for Smart Light</p>
-    
-    <input type="text" id="signupName" placeholder="Your Name">
-    <input type="email" id="signupEmail" placeholder="Email">
-    <input type="password" id="signupPassword" placeholder="Password">
-    <input type="password" id="confirmPassword" placeholder="Confirm Password">
-    <button class="signup" id="signupBtn">CREATE ACCOUNT</button>
-    
-    <p class="link" id="showLogin">Already have an account? Login</p>
-    <p class="message" id="signupMessage"></p>
+
+    <p class="subtitle">
+        Register for Smart Light
+    </p>
+
+    <input
+        type="text"
+        id="signupName"
+        placeholder="Your Name"
+        autocomplete="name">
+
+    <input
+        type="email"
+        id="signupEmail"
+        placeholder="Email"
+        autocomplete="email">
+
+    <input
+        type="password"
+        id="signupPassword"
+        placeholder="Password"
+        autocomplete="new-password">
+
+    <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+        autocomplete="new-password">
+
+    <button
+        id="signupBtn"
+        class="signup">
+
+        CREATE ACCOUNT
+
+    </button>
+
+    <p
+        id="showLogin"
+        class="link">
+
+        Already have an account? Login
+
+    </p>
+
+    <p
+        id="signupMessage"
+        class="message">
+    </p>
+
 </div>
 
-<!-- =========================
-     USER CONTROL PAGE
-========================= -->
-<div id="controlPage" class="container hidden">
+
+
+<!-- ==================================================
+     SMART LIGHT CONTROL
+================================================== -->
+
+<div
+    id="controlPage"
+    class="container hidden">
+
     <h1>💡 Smart Light</h1>
+
     <p id="welcome"></p>
-    
-    <div class="status" id="lightStatus">🔴 LIGHT OFF</div>
-    
-    <button class="on" id="onBtn">💡 TURN ON</button>
-    <button class="off" id="offBtn">🔴 TURN OFF</button>
-    
-    <div class="operation">
-        <div>Last operation:</div>
-        <b id="lastUser">---</b><br>
-        Time: <b id="lastTime">---</b>
+
+    <div
+        id="lightStatus"
+        class="status">
+
+        🔴 LIGHT OFF
+
     </div>
-    
-    <button class="admin hidden" id="adminBtn">👑 ADMIN PANEL</button>
-    <button class="logout" id="logoutBtn">LOGOUT</button>
+
+    <button
+        id="onBtn"
+        class="on">
+
+        💡 TURN ON
+
+    </button>
+
+    <button
+        id="offBtn"
+        class="off">
+
+        🔴 TURN OFF
+
+    </button>
+
+    <div class="operation">
+
+        Last operation:
+
+        <br>
+
+        <b id="lastUser">---</b>
+
+        <br>
+
+        Time:
+
+        <b id="lastTime">---</b>
+
+    </div>
+
+    <button
+        id="adminBtn"
+        class="adminButton hidden">
+
+        👑 ADMIN PANEL
+
+    </button>
+
+    <button
+        id="logoutBtn"
+        class="logout">
+
+        LOGOUT
+
+    </button>
+
 </div>
 
-<!-- =========================
-     ADMIN PAGE
-========================= -->
-<div id="adminPage" class="container hidden">
-    <div class="admin-header">
-        <div>
-            <h1>👑 Admin Profile</h1>
-            <span class="admin-badge">ADMIN</span>
-        </div>
+
+
+<!-- ==================================================
+     ADMIN PANEL
+================================================== -->
+
+<div
+    id="adminPage"
+    class="container hidden">
+
+    <div class="adminHeader">
+
+        <h1>👑 Admin Profile</h1>
+
+        <span class="adminBadge">
+            ADMIN
+        </span>
+
     </div>
-    
+
     <p id="adminWelcome"></p>
-    <h2>Registered Users</h2>
-    <div id="usersList">Loading users...</div>
-    
-    <button class="back" id="backBtn">← BACK TO SMART LIGHT</button>
-    <button class="logout" id="adminLogoutBtn">LOGOUT</button>
+
+    <h2>
+        Registered Users
+    </h2>
+
+    <div id="usersList">
+
+        Loading...
+
+    </div>
+
+    <button
+        id="backBtn"
+        class="back">
+
+        ← BACK
+
+    </button>
+
+    <button
+        id="adminLogoutBtn"
+        class="logout">
+
+        LOGOUT
+
+    </button>
+
 </div>
+
 
 
 <script type="module">
-/* =====================================================
-   FIREBASE IMPORTS (Updated to correct valid version 10.12.2)
-===================================================== */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-/* =====================================================
-   FIREBASE CONFIGURATION
-===================================================== */
+
+/* ==================================================
+   FIREBASE IMPORTS
+================================================== */
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+    getDatabase,
+    ref,
+    get,
+    set,
+    update,
+    onValue
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+
+
+/* ==================================================
+   FIREBASE CONFIG
+================================================== */
+
 const firebaseConfig = {
-    apiKey: "AIzaSyA4C0zhOuAGTSbLVVfCaMerVHivLyhEU60",
-    authDomain: "smart-light-control-d0b37.firebaseapp.com",
-    databaseURL: "https://smart-light-control-d0b37-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "smart-light-control-d0b37",
-    storageBucket: "smart-light-control-d0b37.firebasestorage.app",
-    messagingSenderId: "318812348687",
-    appId: "1:318812348687:web:8fefedd6a16de3eea85e7a",
-    measurementId: "G-RHXP0YK5WK"
+
+    apiKey:
+    "AIzaSyA4C0zhOuAGTSbLVVfCaMerVHivLyhEU60",
+
+    authDomain:
+    "smart-light-control-d0b37.firebaseapp.com",
+
+    databaseURL:
+    "https://smart-light-control-d0b37-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+    projectId:
+    "smart-light-control-d0b37",
+
+    storageBucket:
+    "smart-light-control-d0b37.firebasestorage.app",
+
+    messagingSenderId:
+    "318812348687",
+
+    appId:
+    "1:318812348687:web:8fefedd6a16de3eea85e7a",
+
+    measurementId:
+    "G-RHXP0YK5WK"
+
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
 
-/* =====================================================
-   GET HTML ELEMENTS
-===================================================== */
-const loginPage = document.getElementById("loginPage");
-const signupPage = document.getElementById("signupPage");
-const controlPage = document.getElementById("controlPage");
-const adminPage = document.getElementById("adminPage");
 
-/* =====================================================
-   PAGE FUNCTIONS
-===================================================== */
-function hideAllPages() {
+/* ==================================================
+   FIREBASE INITIALIZATION
+================================================== */
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getDatabase(app);
+
+
+
+/* ==================================================
+   VARIABLES
+================================================== */
+
+/*
+   IMPORTANT:
+
+   During signup Firebase automatically signs in
+   the newly-created user.
+
+   We temporarily stop the auth observer from
+   processing that user before their database
+   profile is created.
+*/
+
+let creatingProfile = false;
+
+
+
+/* ==================================================
+   PAGE REFERENCES
+================================================== */
+
+const loginPage =
+document.getElementById("loginPage");
+
+const signupPage =
+document.getElementById("signupPage");
+
+const controlPage =
+document.getElementById("controlPage");
+
+const adminPage =
+document.getElementById("adminPage");
+
+
+
+/* ==================================================
+   PAGE CONTROL
+================================================== */
+
+function hideAll(){
+
     loginPage.classList.add("hidden");
+
     signupPage.classList.add("hidden");
+
     controlPage.classList.add("hidden");
+
     adminPage.classList.add("hidden");
+
 }
 
-function showLogin() { hideAllPages(); loginPage.classList.remove("hidden"); }
-function showSignup() { hideAllPages(); signupPage.classList.remove("hidden"); }
-function showControl() { hideAllPages(); controlPage.classList.remove("hidden"); }
-function showAdmin() { hideAllPages(); adminPage.classList.remove("hidden"); }
 
-document.getElementById("showSignup").onclick = showSignup;
-document.getElementById("showLogin").onclick = showLogin;
+function showLogin(){
 
-/* =====================================================
-   LOGIN LOGIC
-===================================================== */
-async function performLogin() {
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
-    const message = document.getElementById("loginMessage");
-    
+    hideAll();
+
+    loginPage.classList.remove("hidden");
+
+}
+
+
+function showSignup(){
+
+    hideAll();
+
+    signupPage.classList.remove("hidden");
+
+}
+
+
+function showControl(){
+
+    hideAll();
+
+    controlPage.classList.remove("hidden");
+
+}
+
+
+function showAdmin(){
+
+    hideAll();
+
+    adminPage.classList.remove("hidden");
+
+}
+
+
+
+/* ==================================================
+   LOGIN
+================================================== */
+
+document
+.getElementById("loginBtn")
+.addEventListener("click", async () => {
+
+    const email =
+    document
+    .getElementById("loginEmail")
+    .value
+    .trim();
+
+    const password =
+    document
+    .getElementById("loginPassword")
+    .value;
+
+    const message =
+    document
+    .getElementById("loginMessage");
+
+    const button =
+    document
+    .getElementById("loginBtn");
+
+
     message.textContent = "";
-    if(!email || !password) {
-        message.textContent = "Please enter email and password.";
+
+
+    if(!email){
+
+        message.textContent =
+        "Please enter your email.";
+
         return;
+
     }
-    
-    try {
-        await signInWithEmailAndPassword(auth, email, password);
-    } catch(error) {
+
+
+    if(!password){
+
+        message.textContent =
+        "Please enter your password.";
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent = "LOGGING IN...";
+
+
+    try{
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+    }
+
+    catch(error){
+
         console.error(error);
-        message.textContent = "Invalid email or password.";
+
+        message.textContent =
+        getFirebaseError(error);
+
     }
-}
 
-document.getElementById("loginBtn").addEventListener("click", performLogin);
+    finally{
 
-// Add Enter key support for login
-document.getElementById("loginPassword").addEventListener("keypress", (e) => {
-    if (e.key === "Enter") performLogin();
+        button.disabled = false;
+
+        button.textContent = "LOGIN";
+
+    }
+
 });
 
-/* =====================================================
-   CREATE ACCOUNT LOGIC
-===================================================== */
-async function performSignup() {
-    const name = document.getElementById("signupName").value.trim();
-    const email = document.getElementById("signupEmail").value.trim();
-    const password = document.getElementById("signupPassword").value;
-    const confirm = document.getElementById("confirmPassword").value;
-    const message = document.getElementById("signupMessage");
-    
-    message.textContent = "";
-    
-    if(!name) { message.textContent = "Please enter your name."; return; }
-    if(!email) { message.textContent = "Please enter your email."; return; }
-    if(password.length < 6) { message.textContent = "Password must be at least 6 characters."; return; }
-    if(password !== confirm) { message.textContent = "Passwords do not match."; return; }
-    
-    try {
-        const result = await createUserWithEmailAndPassword(auth, email, password);
-        
-        await set(ref(db, "users/" + result.user.uid), {
-            name: name,
-            email: email,
-            role: "user",
-            denied: false
-        });
-        
-        message.classList.add("success");
-        message.textContent = "Account created successfully.";
-    } catch(error) {
-        console.error(error);
-        message.classList.remove("success");
-        if(error.code === "auth/email-already-in-use") {
-            message.textContent = "Email already in use. Please login.";
-        } else {
-            message.textContent = error.message;
-        }
-    }
-}
 
-document.getElementById("signupBtn").addEventListener("click", performSignup);
 
-// Add Enter key support for signup
-document.getElementById("confirmPassword").addEventListener("keypress", (e) => {
-    if (e.key === "Enter") performSignup();
-});
+/* ==================================================
+   OPEN SIGNUP
+================================================== */
 
-/* =====================================================
-   AUTH STATE (Fixed Race Condition)
-===================================================== */
-onAuthStateChanged(auth, async (user) => {
-    if(!user) {
-        showLogin();
-        return;
-    }
-    
-    try {
-        const userRef = ref(db, "users/" + user.uid);
-        let snapshot = await get(userRef);
-        
-        // FIX: If snapshot doesn't exist, wait 1.5 seconds and retry.
-        // This gives the signup function enough time to create the DB record.
-        if(!snapshot.exists()) {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            snapshot = await get(userRef);
-            
-            if(!snapshot.exists()) {
-                await signOut(auth);
-                alert("User profile not found in database.");
-                return;
-            }
-        }
-        
-        const data = snapshot.val();
-        
-        if(data.denied === true) {
-            await signOut(auth);
-            alert("Your access has been denied by the administrator.");
-            return;
-        }
-        
-        document.getElementById("welcome").textContent = "Welcome, " + (data.name || "User");
-        
-        if(data.role === "admin") {
-            document.getElementById("adminBtn").classList.remove("hidden");
-            document.getElementById("adminWelcome").textContent = "Welcome, " + (data.name || "Admin");
-        } else {
-            document.getElementById("adminBtn").classList.add("hidden");
-        }
-        
-        showControl();
-        
-    } catch(error) {
-        console.error("Authentication error:", error);
-        await signOut(auth);
-    }
-});
+document
+.getElementById("showSignup")
+.onclick = () => {
 
-/* =====================================================
-   LIGHT STATUS
-===================================================== */
-onValue(ref(db, "light"), (snapshot) => {
-    const data = snapshot.val();
-    
-    if(!data) {
-        document.getElementById("lightStatus").textContent = "🔴 LIGHT OFF";
-        return;
-    }
-    
-    if(data.status === "ON") {
-        document.getElementById("lightStatus").textContent = "💡 LIGHT ON";
-    } else {
-        document.getElementById("lightStatus").textContent = "🔴 LIGHT OFF";
-    }
-    
-    document.getElementById("lastUser").textContent = data.lastUser || "---";
-    document.getElementById("lastTime").textContent = data.lastTime || "---";
-});
+    document
+    .getElementById("loginMessage")
+    .textContent = "";
 
-/* =====================================================
-   LIGHT OPERATION
-===================================================== */
-async function operate(action) {
-    const user = auth.currentUser;
-    if(!user) {
-        alert("Please login first.");
-        return;
-    }
-    
-    try {
-        const userRef = ref(db, "users/" + user.uid);
-        const snapshot = await get(userRef);
-        
-        if(!snapshot.exists()) {
-            alert("User profile not found.");
-            return;
-        }
-        
-        const data = snapshot.val();
-        
-        if(data.denied === true) {
-            alert("Access denied by administrator.");
-            await signOut(auth);
-            return;
-        }
-        
-        const now = new Date().toLocaleString();
-        
-        await set(ref(db, "light"), {
-            status: action,
-            lastUser: data.name || "User",
-            lastTime: now
-        });
-        
-    } catch(error) {
-        console.error(error);
-        alert("Unable to update light.");
-    }
-}
+    showSignup();
 
-document.getElementById("onBtn").onclick = () => operate("ON");
-document.getElementById("offBtn").onclick = () => operate("OFF");
-
-/* =====================================================
-   ADMIN BUTTON & FUNCTIONS
-===================================================== */
-document.getElementById("adminBtn").onclick = async () => {
-    const user = auth.currentUser;
-    if(!user) return;
-    
-    try {
-        const snapshot = await get(ref(db, "users/" + user.uid));
-        if(!snapshot.exists()) return;
-        
-        const data = snapshot.val();
-        if(data.role !== "admin") {
-            alert("Admin access required.");
-            return;
-        }
-        
-        loadUsers();
-        showAdmin();
-    } catch(error) {
-        console.error(error);
-        alert("Unable to open Admin Panel.");
-    }
 };
 
-async function loadUsers() {
-    const usersList = document.getElementById("usersList");
-    usersList.innerHTML = "Loading users...";
-    
-    try {
-        const snapshot = await get(ref(db, "users"));
-        if(!snapshot.exists()) {
-            usersList.innerHTML = "<p>No users found.</p>";
-            return;
-        }
-        
-        const users = snapshot.val();
-        usersList.innerHTML = "";
-        
-        Object.entries(users).forEach(([uid, user]) => {
-            const card = document.createElement("div");
-            card.className = "user-card";
-            
-            const name = user.name || "Unknown";
-            const email = user.email || "---";
-            const role = user.role || "user";
-            const denied = user.denied === true;
-            
-            card.innerHTML = `
-                <div class="user-name">${escapeHTML(name)}</div>
-                <div class="user-email">${escapeHTML(email)}</div>
-                <div class="user-role">Role: ${escapeHTML(role)}</div>
-                <div class="user-status">Status: ${denied ? "❌ Denied" : "✅ Allowed"}</div>
-            `;
-            
-            if(uid !== auth.currentUser.uid) {
-                const button = document.createElement("button");
-                if(denied) {
-                    button.textContent = "✅ ALLOW USER";
-                    button.className = "allow";
-                } else {
-                    button.textContent = "🚫 DENY USER";
-                    button.className = "deny";
-                }
-                button.onclick = () => toggleUser(uid, denied);
-                card.appendChild(button);
+
+
+/* ==================================================
+   OPEN LOGIN
+================================================== */
+
+document
+.getElementById("showLogin")
+.onclick = () => {
+
+    document
+    .getElementById("signupMessage")
+    .textContent = "";
+
+    showLogin();
+
+};
+
+
+
+/* ==================================================
+   CREATE ACCOUNT
+================================================== */
+
+document
+.getElementById("signupBtn")
+.addEventListener("click", async () => {
+
+
+    const name =
+    document
+    .getElementById("signupName")
+    .value
+    .trim();
+
+
+    const email =
+    document
+    .getElementById("signupEmail")
+    .value
+    .trim();
+
+
+    const password =
+    document
+    .getElementById("signupPassword")
+    .value;
+
+
+    const confirm =
+    document
+    .getElementById("confirmPassword")
+    .value;
+
+
+    const message =
+    document
+    .getElementById("signupMessage");
+
+
+    const button =
+    document
+    .getElementById("signupBtn");
+
+
+    message.textContent = "";
+
+
+    if(!name){
+
+        message.textContent =
+        "Please enter your name.";
+
+        return;
+
+    }
+
+
+    if(!email){
+
+        message.textContent =
+        "Please enter your email.";
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        message.textContent =
+        "Password must contain at least 6 characters.";
+
+        return;
+
+    }
+
+
+    if(password !== confirm){
+
+        message.textContent =
+        "Passwords do not match.";
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+    "CREATING...";
+
+
+    creatingProfile = true;
+
+
+    try{
+
+
+        /*
+           CREATE FIREBASE AUTH USER
+        */
+
+        const result =
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+        /*
+           CREATE DATABASE PROFILE
+
+           EVERY NEW ACCOUNT IS USER.
+           Nobody can create an admin account
+           from this form.
+        */
+
+        await set(
+            ref(
+                db,
+                "users/" + result.user.uid
+            ),
+            {
+
+                name:name,
+
+                email:email,
+
+                role:"user",
+
+                denied:false
+
             }
-            
-            usersList.appendChild(card);
-        });
-        
-    } catch(error) {
-        console.error(error);
-        usersList.innerHTML = "<p>Unable to load users.</p>";
+        );
+
+
+        message.classList.add("success");
+
+        message.textContent =
+        "Account created successfully.";
+
+
+        /*
+           Keep the new user signed in.
+           The auth observer will now process
+           the completed profile.
+        */
+
     }
-}
 
-async function toggleUser(uid, currentlyDenied) {
-    try {
-        await update(ref(db, "users/" + uid), {
-            denied: !currentlyDenied
-        });
-        loadUsers();
-    } catch(error) {
+    catch(error){
+
         console.error(error);
-        alert("Unable to change user access.");
+
+        message.classList.remove("success");
+
+        message.textContent =
+        getFirebaseError(error);
+
+        /*
+           If database profile creation failed,
+           sign the user out so the account does
+           not remain in a half-created state.
+        */
+
+        if(auth.currentUser){
+
+            try{
+
+                await signOut(auth);
+
+            }
+
+            catch(signOutError){
+
+                console.error(
+                    signOutError
+                );
+
+            }
+
+        }
+
     }
-}
 
-document.getElementById("backBtn").onclick = () => showControl();
+    finally{
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-async function logout() {
-    try {
-        await signOut(auth);
-    } catch(error) {
+        creatingProfile = false;
+
+        button.disabled = false;
+
+        button.textContent =
+        "CREATE ACCOUNT";
+
+    }
+
+});
+
+
+
+/* ==================================================
+   AUTH STATE OBSERVER
+================================================== */
+
+onAuthStateChanged(
+    auth,
+    async (user) => {
+
+
+        /*
+           Do nothing while signup is creating
+           the database profile.
+        */
+
+        if(creatingProfile){
+
+            return;
+
+        }
+
+
+        /*
+           LOGGED OUT
+        */
+
+        if(!user){
+
+            showLogin();
+
+            return;
+
+        }
+
+
+        try{
+
+
+            /*
+               GET USER PROFILE
+            */
+
+            const userRef =
+            ref(
+                db,
+                "users/" + user.uid
+            );
+
+
+            const snapshot =
+            await get(userRef);
+
+
+            if(!snapshot.exists()){
+
+                console.error(
+                    "Database profile missing for UID:",
+                    user.uid
+                );
+
+                await signOut(auth);
+
+                showLogin();
+
+                document
+                .getElementById(
+                    "loginMessage"
+                )
+                .textContent =
+                "User profile was not found in the database.";
+
+                return;
+
+            }
+
+
+            const data =
+            snapshot.val();
+
+
+            /*
+               CHECK ACCESS
+            */
+
+            if(data.denied === true){
+
+                await signOut(auth);
+
+                showLogin();
+
+                document
+                .getElementById(
+                    "loginMessage"
+                )
+                .textContent =
+                "Your access has been denied by the administrator.";
+
+                return;
+
+            }
+
+
+            /*
+               WELCOME MESSAGE
+            */
+
+            document
+            .getElementById("welcome")
+            .textContent =
+            "Welcome, " +
+            (data.name || "User");
+
+
+            /*
+               ADMIN CHECK
+            */
+
+            if(data.role === "admin"){
+
+                document
+                .getElementById("adminBtn")
+                .classList
+                .remove("hidden");
+
+                document
+                .getElementById("adminWelcome")
+                .textContent =
+                "Welcome, " +
+                (data.name || "Admin");
+
+            }
+
+            else{
+
+                document
+                .getElementById("adminBtn")
+                .classList
+                .add("hidden");
+
+            }
+
+
+            /*
+               SHOW CONTROL PAGE
+            */
+
+            showControl();
+
+        }
+
+        catch(error){
+
+            console.error(
+                "Auth state error:",
+                error
+            );
+
+            await signOut(auth);
+
+            showLogin();
+
+            document
+            .getElementById(
+                "loginMessage"
+            )
+            .textContent =
+            getFirebaseError(error);
+
+        }
+
+    }
+);
+
+
+
+/* ==================================================
+   LIGHT STATUS
+================================================== */
+
+onValue(
+    ref(db,"light"),
+    (snapshot) => {
+
+
+        const data =
+        snapshot.val();
+
+
+        if(!data){
+
+            document
+            .getElementById("lightStatus")
+            .textContent =
+            "🔴 LIGHT OFF";
+
+            document
+            .getElementById("lastUser")
+            .textContent =
+            "---";
+
+            document
+            .getElementById("lastTime")
+            .textContent =
+            "---";
+
+            return;
+
+        }
+
+
+        if(data.status === "ON"){
+
+            document
+            .getElementById("lightStatus")
+            .textContent =
+            "💡 LIGHT ON";
+
+        }
+
+        else{
+
+            document
+            .getElementById("lightStatus")
+            .textContent =
+            "🔴 LIGHT OFF";
+
+        }
+
+
+        document
+        .getElementById("lastUser")
+        .textContent =
+        data.lastUser || "---";
+
+
+        document
+        .getElementById("lastTime")
+        .textContent =
+        data.lastTime || "---";
+
+    },
+
+    (error) => {
+
+        console.error(
+            "Light database error:",
+            error
+        );
+
+    }
+);
+
+
+
+/* ==================================================
+   TURN LIGHT ON / OFF
+================================================== */
+
+async function operate(action){
+
+    const user =
+    auth.currentUser;
+
+
+    if(!user){
+
+        alert(
+            "Please login first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+
+        const snapshot =
+        await get(
+            ref(
+                db,
+                "users/" + user.uid
+            )
+        );
+
+
+        if(!snapshot.exists()){
+
+            alert(
+                "User profile not found."
+            );
+
+            return;
+
+        }
+
+
+        const data =
+        snapshot.val();
+
+
+        if(data.denied === true){
+
+            alert(
+                "Access denied."
+            );
+
+            await signOut(auth);
+
+            return;
+
+        }
+
+
+        const now =
+        new Date().toLocaleString();
+
+
+        await set(
+            ref(db,"light"),
+            {
+
+                status:action,
+
+                lastUser:
+                data.name || "User",
+
+                lastTime:now
+
+            }
+        );
+
+
+    }
+
+    catch(error){
+
         console.error(error);
+
+        alert(
+            getFirebaseError(error)
+        );
+
     }
+
 }
 
-document.getElementById("logoutBtn").onclick = logout;
-document.getElementById("adminLogoutBtn").onclick = logout;
 
-/* =====================================================
-   SECURITY HELPER
-===================================================== */
-function escapeHTML(value) {
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-</script>
-</body>
-</html>
+
+/* ==================================================
+   ON BUTTON
+================================================== */
+
+document
+.getElementById("onBtn")
+.onclick = () => {
+
+    operate("ON");
+
+};
+
+
+
+/* ==================================================
+   OFF BUTTON
+================================================== */
+
+document
+.getElementById("offBtn")
+.onclick = () => {
+
+    operate("OFF");
+
+};
+
+
+
+/* ==================================================
+   ADMIN PANEL
+================================================== */
+
+document
+.getElementById("adminBtn")
+.onclick = async () => {
+
+
+    const user =
+    auth.currentUser;
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    try{
+
+
+        const snapshot =
+        await get(
+            ref(
+                db,
+                "users/" + user.uid
+            )
+        );
