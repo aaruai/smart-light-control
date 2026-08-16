@@ -12,331 +12,618 @@ content="width=device-width, initial-scale=1.0">
 
 <style>
 
+/* =========================
+   BASIC
+========================= */
+
 *{
-box-sizing:border-box;
+    box-sizing:border-box;
 }
 
 body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
 
-margin:0;
+    background:
+    radial-gradient(circle at top,#123b50 0%,#07121d 45%,#02060b 100%);
 
-font-family:Arial,sans-serif;
+    color:white;
 
-background:#050b14;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-color:white;
+    padding:20px;
 
-min-height:100vh;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-overflow:hidden;
-
+    overflow:auto;
 }
 
 
-/* PCB START SCREEN */
+/* =========================
+   STARTUP
+========================= */
 
 #startup{
 
-position:fixed;
+    position:fixed;
 
-inset:0;
+    inset:0;
 
-background:#02060b;
+    z-index:1000;
 
-display:flex;
+    background:#02060b;
 
-flex-direction:column;
+    display:flex;
 
-justify-content:center;
+    flex-direction:column;
 
-align-items:center;
+    justify-content:center;
 
-z-index:100;
+    align-items:center;
 
-transition:opacity 1s;
-
-}
-
-
-.pcb{
-
-width:320px;
-
-height:220px;
-
-position:relative;
-
-border:2px solid #16a34a;
-
-border-radius:15px;
-
-background:
-
-linear-gradient(90deg,
-transparent 49%,
-#123b24 50%,
-transparent 51%),
-
-linear-gradient(
-transparent 49%,
-#123b24 50%,
-transparent 51%);
-
-box-shadow:
-
-0 0 20px #16a34a,
-
-inset 0 0 30px #062b17;
-
-}
-
-
-.track{
-
-position:absolute;
-
-height:3px;
-
-background:#126b35;
-
-box-shadow:0 0 8px #22c55e;
-
-}
-
-
-.t1{
-width:180px;
-top:50px;
-left:20px;
-}
-
-.t2{
-width:220px;
-top:110px;
-left:60px;
-}
-
-.t3{
-width:150px;
-top:165px;
-left:30px;
-}
-
-
-.current{
-
-position:absolute;
-
-width:12px;
-
-height:12px;
-
-background:#fff;
-
-border-radius:50%;
-
-box-shadow:
-0 0 8px #22c55e,
-0 0 20px #22c55e;
-
-animation:flow 2s linear infinite;
-
-}
-
-
-.c1{
-top:44px;
-left:20px;
-}
-
-.c2{
-top:104px;
-left:60px;
-animation-delay:.7s;
-}
-
-.c3{
-top:159px;
-left:30px;
-animation-delay:1.3s;
-}
-
-
-@keyframes flow{
-
-0%{
-transform:translateX(0);
-}
-
-100%{
-transform:translateX(200px);
-}
-
+    transition:opacity 1s ease;
 }
 
 
 #startup h1{
 
-margin-top:30px;
+    color:#22c55e;
 
-letter-spacing:3px;
+    letter-spacing:4px;
+
+    text-align:center;
+
+    margin-bottom:25px;
 
 }
 
 
 #startup p{
 
-color:#22c55e;
+    color:#22c55e;
+
+    letter-spacing:2px;
 
 }
 
 
-/* MAIN */
+/* PCB */
+
+.pcb{
+
+    width:320px;
+
+    height:220px;
+
+    position:relative;
+
+    border:2px solid #16a34a;
+
+    border-radius:15px;
+
+    background:
+
+    linear-gradient(
+        90deg,
+        transparent 49%,
+        #123b24 50%,
+        transparent 51%
+    ),
+
+    linear-gradient(
+        transparent 49%,
+        #123b24 50%,
+        transparent 51%
+    );
+
+    box-shadow:
+
+    0 0 20px #16a34a,
+
+    inset 0 0 30px #062b17;
+
+}
+
+
+.track{
+
+    position:absolute;
+
+    height:3px;
+
+    background:#126b35;
+
+    box-shadow:0 0 8px #22c55e;
+
+}
+
+
+.t1{
+    width:180px;
+    top:50px;
+    left:20px;
+}
+
+.t2{
+    width:220px;
+    top:110px;
+    left:60px;
+}
+
+.t3{
+    width:150px;
+    top:165px;
+    left:30px;
+}
+
+
+.current{
+
+    position:absolute;
+
+    width:12px;
+
+    height:12px;
+
+    background:white;
+
+    border-radius:50%;
+
+    box-shadow:
+    0 0 8px #22c55e,
+    0 0 20px #22c55e;
+
+    animation:flow 2s linear infinite;
+
+}
+
+
+.c1{
+    top:44px;
+    left:20px;
+}
+
+.c2{
+    top:104px;
+    left:60px;
+    animation-delay:.7s;
+}
+
+.c3{
+    top:159px;
+    left:30px;
+    animation-delay:1.3s;
+}
+
+
+@keyframes flow{
+
+    0%{
+        transform:translateX(0);
+    }
+
+    100%{
+        transform:translateX(200px);
+    }
+
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
 
 .container{
 
-width:90%;
+    width:100%;
 
-max-width:420px;
+    max-width:430px;
 
-background:#111827;
+    background:
+    linear-gradient(
+        145deg,
+        rgba(17,24,39,.97),
+        rgba(8,20,30,.97)
+    );
 
-padding:30px;
+    padding:30px;
 
-border-radius:20px;
+    border-radius:22px;
 
-box-shadow:0 0 30px rgba(0,0,0,.5);
+    box-shadow:
+    0 0 30px rgba(0,0,0,.6),
+    0 0 5px rgba(34,197,94,.2);
 
-text-align:center;
+    text-align:center;
 
 }
 
 
 .hidden{
 
-display:none!important;
+    display:none !important;
 
 }
 
+
+/* =========================
+   HEADINGS
+========================= */
+
+h1{
+
+    margin-top:0;
+
+    margin-bottom:10px;
+
+}
+
+
+h2{
+
+    margin-top:5px;
+
+}
+
+
+p{
+
+    line-height:1.5;
+
+}
+
+
+/* =========================
+   INPUT
+========================= */
 
 input{
 
-width:100%;
+    width:100%;
 
-padding:14px;
+    padding:14px;
 
-margin:8px 0;
+    margin:8px 0;
 
-border-radius:10px;
+    border-radius:10px;
 
-border:1px solid #374151;
+    border:1px solid #374151;
 
-background:#1f2937;
+    outline:none;
 
-color:white;
+    background:#1f2937;
 
-font-size:16px;
+    color:white;
+
+    font-size:16px;
 
 }
 
 
+input:focus{
+
+    border-color:#22c55e;
+
+    box-shadow:
+    0 0 8px rgba(34,197,94,.3);
+
+}
+
+
+input::placeholder{
+
+    color:#9ca3af;
+
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
 button{
 
-width:100%;
+    width:100%;
 
-padding:14px;
+    padding:14px;
 
-margin:8px 0;
+    margin:8px 0;
 
-border:none;
+    border:none;
 
-border-radius:10px;
+    border-radius:10px;
 
-font-size:17px;
+    font-size:16px;
 
-font-weight:bold;
+    font-weight:bold;
 
-cursor:pointer;
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+button:hover{
+
+    transform:scale(1.02);
+
+}
+
+
+button:active{
+
+    transform:scale(.98);
 
 }
 
 
 .login{
 
-background:#2563eb;
+    background:#2563eb;
 
-color:white;
+    color:white;
 
 }
 
 
 .signup{
 
-background:#7c3aed;
+    background:#7c3aed;
 
-color:white;
+    color:white;
 
 }
 
 
 .on{
 
-background:#16a34a;
+    background:#16a34a;
 
-color:white;
+    color:white;
 
 }
 
 
 .off{
 
-background:#dc2626;
+    background:#dc2626;
 
-color:white;
+    color:white;
 
 }
 
 
 .logout{
 
-background:#475569;
+    background:#475569;
 
-color:white;
+    color:white;
+
+}
+
+
+.adminButton{
+
+    background:#9333ea;
+
+    color:white;
 
 }
 
 
-.status{
-
-font-size:25px;
-
-margin:20px 0;
-
-}
-
+/* =========================
+   LINKS
+========================= */
 
 .link{
 
-color:#60a5fa;
+    color:#60a5fa;
 
-cursor:pointer;
+    cursor:pointer;
 
-margin-top:15px;
+    margin-top:15px;
 
 }
 
 
+.link:hover{
+
+    text-decoration:underline;
+
+}
+
+
+/* =========================
+   MESSAGES
+========================= */
+
 .message{
 
-color:#f87171;
+    color:#f87171;
 
-min-height:20px;
+    min-height:24px;
+
+    font-size:14px;
+
+    margin-top:10px;
+
+}
+
+
+.successMessage{
+
+    color:#4ade80;
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status{
+
+    font-size:25px;
+
+    margin:20px 0;
+
+    font-weight:bold;
+
+}
+
+
+.lightOn{
+
+    color:#4ade80;
+
+}
+
+
+.lightOff{
+
+    color:#f87171;
+
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+.adminTitle{
+
+    color:#c084fc;
+
+}
+
+
+.adminBadge{
+
+    display:inline-block;
+
+    padding:7px 14px;
+
+    border-radius:20px;
+
+    background:#581c87;
+
+    color:#e9d5ff;
+
+    font-weight:bold;
+
+    margin:10px 0;
+
+}
+
+
+.userList{
+
+    margin-top:15px;
+
+    text-align:left;
+
+    max-height:280px;
+
+    overflow-y:auto;
+
+}
+
+
+.userCard{
+
+    background:#1f2937;
+
+    border:1px solid #374151;
+
+    border-radius:12px;
+
+    padding:14px;
+
+    margin:10px 0;
+
+}
+
+
+.userCard strong{
+
+    color:#f9fafb;
+
+}
+
+
+.userEmail{
+
+    color:#9ca3af;
+
+    font-size:14px;
+
+    word-break:break-all;
+
+}
+
+
+.roleAdmin{
+
+    color:#c084fc;
+
+    font-weight:bold;
+
+}
+
+
+.roleUser{
+
+    color:#60a5fa;
+
+    font-weight:bold;
+
+}
+
+
+.activeUser{
+
+    color:#4ade80;
+
+    font-weight:bold;
+
+}
+
+
+.deniedUser{
+
+    color:#f87171;
+
+    font-weight:bold;
+
+}
+
+
+/* =========================
+   DIVIDER
+========================= */
+
+hr{
+
+    border:none;
+
+    border-top:1px solid #374151;
+
+    margin:20px 0;
+
+}
+
+
+/* =========================
+   SMALL TEXT
+========================= */
+
+.small{
+
+    color:#9ca3af;
+
+    font-size:13px;
 
 }
 
@@ -349,595 +636,910 @@ min-height:20px;
 <body>
 
 
-<!-- PCB ANIMATION -->
+<!-- =====================================================
+     STARTUP
+===================================================== -->
 
 <div id="startup">
 
-<h1>⚡ SMART LIGHT</h1>
+    <h1>⚡ SMART LIGHT</h1>
 
-<div class="pcb">
+    <div class="pcb">
 
-<div class="track t1"></div>
+        <div class="track t1"></div>
 
-<div class="track t2"></div>
+        <div class="track t2"></div>
 
-<div class="track t3"></div>
+        <div class="track t3"></div>
 
-<div class="current c1"></div>
+        <div class="current c1"></div>
 
-<div class="current c2"></div>
+        <div class="current c2"></div>
 
-<div class="current c3"></div>
+        <div class="current c3"></div>
+
+    </div>
+
+    <p>INITIALIZING SYSTEM...</p>
 
 </div>
 
-<p>INITIALIZING SYSTEM...</p>
 
-</div>
-
-
-<!-- LOGIN -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <div id="loginPage"
-class="container hidden">
+     class="container hidden">
 
-<h1>🔐 Smart Light</h1>
+    <h1>🔐 Smart Light</h1>
 
-<p>Secure Access</p>
+    <p>Secure Access</p>
 
-<input
-type="email"
-id="loginEmail"
-placeholder="Email">
+    <input
+        type="email"
+        id="loginEmail"
+        placeholder="Email"
+        autocomplete="email"
+    >
 
-<input
-type="password"
-id="loginPassword"
-placeholder="Password">
+    <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+        autocomplete="current-password"
+    >
 
-<button
-class="login"
-id="loginBtn">
+    <button
+        class="login"
+        id="loginBtn">
 
-LOGIN
+        LOGIN
 
-</button>
+    </button>
 
-<p
-class="link"
-id="showSignup">
+    <p
+        class="link"
+        id="showSignup">
 
-Create new account
+        Create new account
 
-</p>
+    </p>
 
-<p
-class="message"
-id="loginMessage">
-</p>
+    <p
+        class="message"
+        id="loginMessage">
+    </p>
 
 </div>
 
 
-<!-- SIGN UP -->
+<!-- =====================================================
+     SIGNUP
+===================================================== -->
 
 <div id="signupPage"
-class="container hidden">
+     class="container hidden">
 
-<h1>📝 Create Account</h1>
+    <h1>📝 Create Account</h1>
 
-<input
-type="text"
-id="signupName"
-placeholder="Your Name">
+    <input
+        type="text"
+        id="signupName"
+        placeholder="Your Name"
+        autocomplete="name"
+    >
 
-<input
-type="email"
-id="signupEmail"
-placeholder="Email">
+    <input
+        type="email"
+        id="signupEmail"
+        placeholder="Email"
+        autocomplete="email"
+    >
 
-<input
-type="password"
-id="signupPassword"
-placeholder="Password">
+    <input
+        type="password"
+        id="signupPassword"
+        placeholder="Password"
+        autocomplete="new-password"
+    >
 
-<input
-type="password"
-id="confirmPassword"
-placeholder="Confirm Password">
+    <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+        autocomplete="new-password"
+    >
 
-<button
-class="signup"
-id="signupBtn">
+    <button
+        class="signup"
+        id="signupBtn">
 
-CREATE ACCOUNT
+        CREATE ACCOUNT
 
-</button>
+    </button>
 
-<p
-class="link"
-id="showLogin">
+    <p
+        class="link"
+        id="showLogin">
 
-Already have an account? Login
+        Already have an account? Login
 
-</p>
+    </p>
 
-<p
-class="message"
-id="signupMessage">
-</p>
+    <p
+        class="message"
+        id="signupMessage">
+    </p>
 
 </div>
 
 
-<!-- CONTROL -->
+<!-- =====================================================
+     USER CONTROL PAGE
+===================================================== -->
 
 <div id="controlPage"
-class="container hidden">
+     class="container hidden">
 
-<h1>💡 Smart Light</h1>
+    <h1>💡 Smart Light</h1>
 
-<p id="welcome"></p>
+    <p id="welcome">
+        Welcome
+    </p>
 
-<div
-class="status"
-id="lightStatus">
+    <div
+        class="status"
+        id="lightStatus">
 
-🔴 LIGHT OFF
+        🔴 LIGHT OFF
+
+    </div>
+
+    <button
+        class="on"
+        id="onBtn">
+
+        💡 TURN ON
+
+    </button>
+
+    <button
+        class="off"
+        id="offBtn">
+
+        🔴 TURN OFF
+
+    </button>
+
+    <p>
+
+        Last operation:
+
+        <br>
+
+        <b id="lastUser">---</b>
+
+        <br>
+
+        Time:
+
+        <b id="lastTime">---</b>
+
+    </p>
+
+    <button
+        class="logout"
+        id="logoutBtn">
+
+        LOGOUT
+
+    </button>
 
 </div>
 
-<button
-class="on"
-id="onBtn">
 
-💡 TURN ON
+<!-- =====================================================
+     ADMIN PAGE
+===================================================== -->
 
-</button>
+<div id="adminPage"
+     class="container hidden">
 
-<button
-class="off"
-id="offBtn">
+    <h1 class="adminTitle">
+        🛡️ Admin Profile
+    </h1>
 
-🔴 TURN OFF
+    <p id="adminWelcome">
+        Welcome, Admin
+    </p>
 
-</button>
+    <div class="adminBadge">
+        👑 ADMIN ACCESS
+    </div>
 
-<p>
+    <hr>
 
-Last operation:
+    <h2>👥 Registered Users</h2>
 
-<br>
+    <div
+        id="userList"
+        class="userList">
 
-<b id="lastUser">---</b>
+        Loading users...
 
-<br>
+    </div>
 
-Time:
+    <hr>
 
-<b id="lastTime">---</b>
+    <h2>💡 Light Control</h2>
 
-</p>
+    <div
+        class="status"
+        id="adminLightStatus">
 
-<button
-class="logout"
-id="logoutBtn">
+        🔴 LIGHT OFF
 
-LOGOUT
+    </div>
 
-</button>
+    <button
+        class="on"
+        id="adminLightOn">
+
+        💡 TURN ON LIGHT
+
+    </button>
+
+    <button
+        class="off"
+        id="adminLightOff">
+
+        🔴 TURN OFF LIGHT
+
+    </button>
+
+    <button
+        class="logout"
+        id="adminLogout">
+
+        LOGOUT
+
+    </button>
 
 </div>
 
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
 <script type="module">
 
 
-import { initializeApp }
+/* =====================================================
+   FIREBASE IMPORTS
+===================================================== */
 
-from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 
 
 import {
-
-getAuth,
-
-createUserWithEmailAndPassword,
-
-signInWithEmailAndPassword,
-
-onAuthStateChanged,
-
-signOut
-
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
 }
-
 from
-
 "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
 
 import {
-
-getDatabase,
-
-ref,
-
-get,
-
-set,
-
-onValue
-
+    getDatabase,
+    ref,
+    get,
+    set,
+    onValue
 }
-
 from
-
 "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
 
 
-/* FIREBASE */
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA4C0zhOuAGTSbLVVfCaMerVHivLyhEU60",
-  authDomain: "smart-light-control-d0b37.firebaseapp.com",
-  databaseURL: "https://smart-light-control-d0b37-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "smart-light-control-d0b37",
-  storageBucket: "smart-light-control-d0b37.firebasestorage.app",
-  messagingSenderId: "318812348687",
-  appId: "1:318812348687:web:8fefedd6a16de3eea85e7a",
-  measurementId: "G-RHXP0YK5WK"
+
+    apiKey:
+    "AIzaSyA4C0zhOuAGTSbLVVfCaMerVHivLyhEU60",
+
+    authDomain:
+    "smart-light-control-d0b37.firebaseapp.com",
+
+    databaseURL:
+    "https://smart-light-control-d0b37-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+    projectId:
+    "smart-light-control-d0b37",
+
+    storageBucket:
+    "smart-light-control-d0b37.firebasestorage.app",
+
+    messagingSenderId:
+    "318812348687",
+
+    appId:
+    "1:318812348687:web:8fefedd6a16de3eea85e7a",
+
+    measurementId:
+    "G-RHXP0YK5WK"
+
 };
 
 
-const app=initializeApp(firebaseConfig);
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
 
-const auth=getAuth(app);
+const app =
+initializeApp(firebaseConfig);
 
-const db=getDatabase(app);
+const auth =
+getAuth(app);
+
+const db =
+getDatabase(app);
 
 
-/* ELEMENTS */
+/* =====================================================
+   HTML ELEMENTS
+===================================================== */
 
-const startup=
+const startup =
 document.getElementById("startup");
 
-const loginPage=
+const loginPage =
 document.getElementById("loginPage");
 
-const signupPage=
+const signupPage =
 document.getElementById("signupPage");
 
-const controlPage=
+const controlPage =
 document.getElementById("controlPage");
 
-
-/* STARTUP ANIMATION */
-
-setTimeout(()=>{
-
-startup.style.opacity="0";
-
-setTimeout(()=>{
-
-startup.classList.add("hidden");
-
-showCorrectPage();
-
-},1000);
-
-},3000);
+const adminPage =
+document.getElementById("adminPage");
 
 
-/* PAGE SWITCH */
+/* =====================================================
+   PAGE MANAGEMENT
+===================================================== */
 
-function showCorrectPage(){
+function hideAllPages(){
 
-if(auth.currentUser){
+    loginPage.classList.add("hidden");
 
-controlPage.classList.remove("hidden");
+    signupPage.classList.add("hidden");
 
-}else{
+    controlPage.classList.add("hidden");
 
-loginPage.classList.remove("hidden");
-
-}
+    adminPage.classList.add("hidden");
 
 }
 
 
-/* LOGIN */
+function showLogin(){
+
+    hideAllPages();
+
+    loginPage.classList.remove("hidden");
+
+}
+
+
+function showSignup(){
+
+    hideAllPages();
+
+    signupPage.classList.remove("hidden");
+
+}
+
+
+function showUserPage(){
+
+    hideAllPages();
+
+    controlPage.classList.remove("hidden");
+
+}
+
+
+function showAdminPage(){
+
+    hideAllPages();
+
+    adminPage.classList.remove("hidden");
+
+}
+
+
+/* =====================================================
+   STARTUP
+===================================================== */
+
+setTimeout(()=>{
+
+    startup.style.opacity="0";
+
+    setTimeout(()=>{
+
+        startup.classList.add("hidden");
+
+        /*
+         Authentication state is handled by
+         onAuthStateChanged below.
+        */
+
+    },1000);
+
+},2500);
+
+
+/* =====================================================
+   SHOW SIGNUP
+===================================================== */
+
+document
+.getElementById("showSignup")
+.addEventListener("click",()=>{
+
+    document.getElementById(
+        "loginMessage"
+    ).textContent="";
+
+    showSignup();
+
+});
+
+
+/* =====================================================
+   SHOW LOGIN
+===================================================== */
+
+document
+.getElementById("showLogin")
+.addEventListener("click",()=>{
+
+    document.getElementById(
+        "signupMessage"
+    ).textContent="";
+
+    showLogin();
+
+});
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
 
 document
 .getElementById("loginBtn")
 .addEventListener("click",async()=>{
 
-const email=
-document.getElementById("loginEmail").value;
 
-const password=
-document.getElementById("loginPassword").value;
+    const email =
+    document
+    .getElementById("loginEmail")
+    .value
+    .trim();
 
-try{
 
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
+    const password =
+    document
+    .getElementById("loginPassword")
+    .value;
 
-}catch(error){
 
-document.getElementById(
-"loginMessage"
-).textContent=
-"Invalid email or password.";
+    const message =
+    document
+    .getElementById("loginMessage");
 
-}
+
+    message.textContent="";
+
+
+    if(!email || !password){
+
+        message.textContent =
+        "Please enter email and password.";
+
+        return;
+
+    }
+
+
+    try{
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        /*
+         Do NOT manually change the page here.
+
+         onAuthStateChanged() will detect
+         the login and decide whether the
+         account is ADMIN or USER.
+        */
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        if(error.code ===
+        "auth/invalid-credential"){
+
+            message.textContent =
+            "Invalid email or password.";
+
+        }
+
+        else if(error.code ===
+        "auth/user-not-found"){
+
+            message.textContent =
+            "Account does not exist.";
+
+        }
+
+        else if(error.code ===
+        "auth/wrong-password"){
+
+            message.textContent =
+            "Incorrect password.";
+
+        }
+
+        else if(error.code ===
+        "auth/too-many-requests"){
+
+            message.textContent =
+            "Too many attempts. Try again later.";
+
+        }
+
+        else{
+
+            message.textContent =
+            error.message;
+
+        }
+
+    }
 
 });
 
 
-/* SHOW SIGNUP */
-
-document
-.getElementById("showSignup")
-.onclick=()=>{
-
-loginPage.classList.add("hidden");
-
-signupPage.classList.remove("hidden");
-
-};
-
-
-/* SHOW LOGIN */
-
-document
-.getElementById("showLogin")
-.onclick=()=>{
-
-signupPage.classList.add("hidden");
-
-loginPage.classList.remove("hidden");
-
-};
-
-
-/* CREATE ACCOUNT */
+/* =====================================================
+   CREATE ACCOUNT
+===================================================== */
 
 document
 .getElementById("signupBtn")
 .addEventListener("click",async()=>{
 
-const name=
-document.getElementById("signupName").value;
 
-const email=
-document.getElementById("signupEmail").value;
-
-const password=
-document.getElementById("signupPassword").value;
-
-const confirm=
-document.getElementById("confirmPassword").value;
+    const name =
+    document
+    .getElementById("signupName")
+    .value
+    .trim();
 
 
-if(password!==confirm){
-
-document.getElementById(
-"signupMessage"
-).textContent=
-"Passwords do not match.";
-
-return;
-
-}
+    const email =
+    document
+    .getElementById("signupEmail")
+    .value
+    .trim();
 
 
-try{
-
-const result=
-await createUserWithEmailAndPassword(
-auth,
-email,
-password
-);
+    const password =
+    document
+    .getElementById("signupPassword")
+    .value;
 
 
-await set(
-ref(db,"users/"+result.user.uid),
-{
-
-name:name,
-
-email:email,
-
-role:"user",
-
-denied:false
-
-}
-
-);
+    const confirm =
+    document
+    .getElementById("confirmPassword")
+    .value;
 
 
-}catch(error){
+    const message =
+    document
+    .getElementById("signupMessage");
 
-document.getElementById(
-"signupMessage"
-).textContent=
-error.message;
 
-}
+    message.textContent="";
+
+
+    if(!name){
+
+        message.textContent =
+        "Please enter your name.";
+
+        return;
+
+    }
+
+
+    if(!email){
+
+        message.textContent =
+        "Please enter your email.";
+
+        return;
+
+    }
+
+
+    if(!password){
+
+        message.textContent =
+        "Please enter a password.";
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        message.textContent =
+        "Password must contain at least 6 characters.";
+
+        return;
+
+    }
+
+
+    if(password !== confirm){
+
+        message.textContent =
+        "Passwords do not match.";
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+         Create Firebase Authentication account
+        */
+
+        const result =
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+        /*
+         IMPORTANT:
+
+         Every newly created account is USER.
+
+         Never allow signup form to choose
+         admin role.
+        */
+
+        await set(
+            ref(
+                db,
+                "users/" + result.user.uid
+            ),
+
+            {
+
+                name:name,
+
+                email:email,
+
+                role:"user",
+
+                denied:false
+
+            }
+
+        );
+
+
+        message.className =
+        "message successMessage";
+
+
+        message.textContent =
+        "Account created successfully. Loading dashboard...";
+
+
+        /*
+         onAuthStateChanged will automatically
+         show the user dashboard.
+        */
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        message.className =
+        "message";
+
+
+        if(error.code ===
+        "auth/email-already-in-use"){
+
+            message.textContent =
+            "Email already in use. Please login instead.";
+
+        }
+
+        else if(error.code ===
+        "auth/invalid-email"){
+
+            message.textContent =
+            "Please enter a valid email address.";
+
+        }
+
+        else if(error.code ===
+        "auth/weak-password"){
+
+            message.textContent =
+            "Password is too weak.";
+
+        }
+
+        else{
+
+            message.textContent =
+            error.message;
+
+        }
+
+    }
 
 });
 
 
-/* AUTH STATE */
+/* =====================================================
+   AUTH STATE
+===================================================== */
 
-onAuthStateChanged(auth,async(user)=>{
+onAuthStateChanged(
+    auth,
+    async(user)=>{
 
-if(!user)return;
 
+        /*
+         NO USER
+        */
 
-const userRef=
-ref(db,"users/"+user.uid);
+        if(!user){
 
-const snapshot=
-await get(userRef);
+            showLogin();
 
+            return;
 
-if(!snapshot.exists())return;
+        }
 
 
-const data=snapshot.val();
+        try{
 
 
-if(data.denied===true){
+            /*
+             Get user profile from Realtime Database
+            */
 
-alert(
-"Your access has been denied by the administrator."
-);
+            const userRef =
+            ref(
+                db,
+                "users/" + user.uid
+            );
 
-await signOut(auth);
 
-return;
+            const snapshot =
+            await get(userRef);
 
-}
 
+            /*
+             Profile doesn't exist
+            */
 
-loginPage.classList.add("hidden");
+            if(!snapshot.exists()){
 
-signupPage.classList.add("hidden");
+                alert(
+                    "User profile not found in database."
+                );
 
-controlPage.classList.remove("hidden");
+                await signOut(auth);
 
+                return;
 
-document.getElementById(
-"welcome"
-).textContent=
-"Welcome, "+data.name;
+            }
 
-});
 
+            const data =
+            snapshot.val();
 
-/* LIGHT STATUS */
 
-onValue(
-ref(db,"light"),
-(snapshot)=>{
+            /*
+             CHECK DENIED
+            */
 
-const data=snapshot.val();
+            if(data.denied === true){
 
-if(!data)return;
+                alert(
+                    "Your access has been denied by the administrator."
+                );
 
+                await signOut(auth);
 
-if(data.status==="ON"){
+                return;
 
-document.getElementById(
-"lightStatus"
-).textContent=
-"💡 LIGHT ON";
+            }
 
-}else{
 
-document.getElementById(
-"lightStatus"
-).textContent=
-"🔴 LIGHT OFF";
+            /*
+             HIDE LOGIN/SIGNUP
+            */
 
-}
+            hideAllPages();
 
 
-document.getElementById(
-"lastUser"
-).textContent=
-data.lastUser||"---";
+            /*
+             =============================
+             ADMIN
+             =============================
+            */
 
+            if(data.role === "admin"){
 
-document.getElementById(
-"lastTime"
-).textContent=
-data.lastTime||"---";
+                showAdminPage();
 
-});
 
+                document
+                .getElementById("adminWelcome")
+                .textContent =
+                "Welcome, Admin " +
+                (data.name || "Administrator");
 
-/* OPERATION */
 
-async function operate(action){
+                /*
+                 Load all users
+                */
 
-const user=auth.currentUser;
+                await loadUsers();
 
-if(!user)return;
+            }
 
 
-const snapshot=
-await get(
-ref(db,"users/"+user.uid)
-);
-
-
-if(!snapshot.exists())return;
-
-
-const data=snapshot.val();
-
-
-if(data.denied===true){
-
-alert("Access denied.");
-
-return;
-
-}
-
-
-const now=
-new Date().toLocaleString();
-
-
-await set(
-ref(db,"light"),
-{
-
-status:action,
-
-lastUser:data.name,
-
-lastTime:now
-
-}
-
-);
-
-}
-
-
-document
-.getElementById("onBtn")
-.onclick=()=>operate("ON");
-
-
-document
-.getElementById("offBtn")
-.onclick=()=>operate("OFF");
-
-
-/* LOGOUT */
-
-document
-.getElementById("logoutBtn")
-.onclick=()=>{
-
-signOut(auth);
-
-};
-
-
-</script>
-
-</body>
-
-</html>
+            /*
+             =====================
