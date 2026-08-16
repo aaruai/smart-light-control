@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -112,13 +111,8 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
     max-height:350px;
     overflow-y:auto;
 }
-
-.userRow{
-    padding:12px 0;
-    border-bottom: 1px solid #334155;
-}
+.userRow{ padding:12px 0; border-bottom: 1px solid #334155; }
 .userRow:last-child{ border-bottom:none; }
-
 .userName{ font-weight:bold; font-size:16px; }
 .userEmail{ color:#94a3b8; font-size:13px; margin-top:4px; }
 .userRole{ color:#67e8f9; font-size:13px; margin-top:4px; }
@@ -221,9 +215,10 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
     <button id="adminLogoutBtn" class="logout">LOGOUT</button>
 </div>
 
+
 <script type="module">
 /* ==================================================
-   FIREBASE IMPORTS (Updated Version)
+   FIREBASE IMPORTS (v10.12.2 - Modular SDK)
 ================================================== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -248,7 +243,7 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 
 /* ==================================================
-   PAGE VARIABLES & FUNCTIONS
+   PAGE VARIABLES & NAVIGATION
 ================================================== */
 const loginPage = document.getElementById("loginPage");
 const signupPage = document.getElementById("signupPage");
@@ -269,28 +264,27 @@ function showAdmin() { hideAll(); adminPage.classList.remove("hidden"); }
 
 document.getElementById("showSignup").onclick = showSignup;
 document.getElementById("showLogin").onclick = showLogin;
+document.getElementById("backBtn").onclick = showControl;
 
 /* ==================================================
-   FIREBASE ERROR MESSAGE
+   ERROR MESSAGES
 ================================================== */
 function getErrorMessage(error) {
     switch(error.code) {
         case "auth/invalid-credential": return "Incorrect email or password.";
-        case "auth/invalid-email": return "Invalid email address.";
         case "auth/user-not-found": return "User account not found.";
         case "auth/wrong-password": return "Incorrect password.";
         case "auth/email-already-in-use": return "Email already exists. Please login.";
         case "auth/weak-password": return "Password must contain at least 6 characters.";
-        case "auth/network-request-failed": return "Network error. Check your internet.";
-        case "PERMISSION_DENIED": return "Firebase Database permission denied.";
+        case "PERMISSION_DENIED": return "Database permission denied. Check your Firebase Rules.";
         default: return error.message || "Unknown Firebase error.";
     }
 }
 
 /* ==================================================
-   AUTH STATE LISTENER (Handles all routing)
+   AUTH STATE LISTENER
 ================================================== */
-onAuthStateChanged(auth, async function(user) {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
         await loadUserProfile(user);
     } else {
@@ -299,73 +293,82 @@ onAuthStateChanged(auth, async function(user) {
 });
 
 /* ==================================================
-   LOAD USER PROFILE
+   LOAD USER PROFILE (WITH AUTO-RECOVERY)
 ================================================== */
 async function loadUserProfile(user) {
     try {
         const userRef = ref(db, "users/" + user.uid);
         let snapshot = await get(userRef);
 
-        // Give the database a moment to sync if it's a brand-new signup
+        // If the database profile doesn't exist (e.g. account created manually in Firebase Console)
         if (!snapshot.exists()) {
-            await new Promise(r => setTimeout(r, 1500)); 
-            snapshot = await get(userRef);
-            if (!snapshot.exists()) throw new Error("No user profile exists.");
+            try {
+                // Auto-create standard profile
+                await set(userRef, {
+                    name: user.email.split('@')[0], // Use part of email as name
+                    email: user.email,
+                    role: "user",
+                    denied: false
+                });
+                snapshot = await get(userRef); // Fetch again
+            } catch (creationError) {
+                throw new Error("Unable to create database profile. Database permissions rejected the write.");
+            }
         }
 
         const data = snapshot.val();
 
+        // Check if user is banned
         if (data.denied === true) {
             await signOut(auth);
             throw new Error("Your account has been denied by the administrator.");
         }
 
-        showControl();
+        // Setup Control Page
         document.getElementById("welcome").textContent = "Welcome, " + (data.name || user.email);
         
-        // Reset Login/Signup button states
-        document.getElementById("loginBtn").disabled = false;
-        document.getElementById("loginBtn").textContent = "LOGIN";
-        document.getElementById("signupBtn").disabled = false;
-        document.getElementById("signupBtn").textContent = "CREATE ACCOUNT";
-
+        // Show Admin panel button if role is admin
         if (String(data.role || "").trim().toLowerCase() === "admin") {
             document.getElementById("adminBtn").classList.remove("hidden");
         } else {
             document.getElementById("adminBtn").classList.add("hidden");
         }
 
+        showControl();
         startLightListener();
 
     } catch (error) {
-        console.error("PROFILE ERROR:", error);
+        console.error(error);
         document.getElementById("loginMessage").textContent = getErrorMessage(error);
         await signOut(auth);
         showLogin();
+    } finally {
+        // Always reset buttons so it doesn't freeze
+        document.getElementById("loginBtn").disabled = false;
+        document.getElementById("loginBtn").textContent = "LOGIN";
+        document.getElementById("signupBtn").disabled = false;
+        document.getElementById("signupBtn").textContent = "CREATE ACCOUNT";
     }
 }
 
 /* ==================================================
    LOGIN
 ================================================== */
-document.getElementById("loginBtn").onclick = async function() {
+document.getElementById("loginBtn").onclick = async () => {
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
     const message = document.getElementById("loginMessage");
-    message.textContent = "";
-
-    if (!email || !password) {
-        message.textContent = "Please enter your email and password.";
-        return;
-    }
-
     const button = document.getElementById("loginBtn");
+
+    message.textContent = "";
+    if (!email || !password) { message.textContent = "Enter email and password."; return; }
+
     button.disabled = true;
     button.textContent = "LOGGING IN...";
 
     try {
         await signInWithEmailAndPassword(auth, email, password);
-        // onAuthStateChanged takes over routing here
+        // Success triggers onAuthStateChanged above
     } catch (error) {
         message.textContent = getErrorMessage(error);
         button.disabled = false;
@@ -376,20 +379,19 @@ document.getElementById("loginBtn").onclick = async function() {
 /* ==================================================
    SIGNUP
 ================================================== */
-document.getElementById("signupBtn").onclick = async function() {
+document.getElementById("signupBtn").onclick = async () => {
     const name = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim();
     const password = document.getElementById("signupPassword").value;
     const confirm = document.getElementById("confirmPassword").value;
     const message = document.getElementById("signupMessage");
+    const button = document.getElementById("signupBtn");
     
     message.textContent = "";
-
     if (!name || !email) { message.textContent = "Please fill all fields."; return; }
     if (password.length < 6) { message.textContent = "Password needs 6+ characters."; return; }
     if (password !== confirm) { message.textContent = "Passwords do not match."; return; }
 
-    const button = document.getElementById("signupBtn");
     button.disabled = true;
     button.textContent = "CREATING...";
 
@@ -405,7 +407,6 @@ document.getElementById("signupBtn").onclick = async function() {
 
         message.className = "message success";
         message.textContent = "Account created! Loading...";
-        // onAuthStateChanged takes over routing here
     } catch (error) {
         message.className = "message";
         message.textContent = getErrorMessage(error);
@@ -415,15 +416,15 @@ document.getElementById("signupBtn").onclick = async function() {
 };
 
 /* ==================================================
-   LIGHT LISTENER & CONTROLS (Restored!)
+   LIGHT CONTROLS
 ================================================== */
-let lightListenerStarted = false;
+let listenerActive = false;
 
 function startLightListener() {
-    if (lightListenerStarted) return;
-    lightListenerStarted = true;
+    if (listenerActive) return;
+    listenerActive = true;
 
-    onValue(ref(db, "light"), function(snapshot) {
+    onValue(ref(db, "light"), (snapshot) => {
         const data = snapshot.val();
         const statusEl = document.getElementById("lightStatus");
         
@@ -434,12 +435,7 @@ function startLightListener() {
             return;
         }
 
-        if (data.status === "ON") {
-            statusEl.textContent = "💡 LIGHT ON";
-        } else {
-            statusEl.textContent = "🔴 LIGHT OFF";
-        }
-
+        statusEl.textContent = data.status === "ON" ? "💡 LIGHT ON" : "🔴 LIGHT OFF";
         document.getElementById("lastUser").textContent = data.lastUser || "---";
         document.getElementById("lastTime").textContent = data.lastTime || "---";
     });
@@ -452,7 +448,7 @@ async function operateLight(action) {
     try {
         const snap = await get(ref(db, "users/" + user.uid));
         if (!snap.exists() || snap.val().denied === true) {
-            alert("Access Denied.");
+            alert("Your access has been denied.");
             return;
         }
         
@@ -463,7 +459,7 @@ async function operateLight(action) {
         });
     } catch (error) {
         console.error(error);
-        alert("Failed to operate light.");
+        alert("Failed to operate light. Check permissions.");
     }
 }
 
@@ -471,15 +467,11 @@ document.getElementById("onBtn").onclick = () => operateLight("ON");
 document.getElementById("offBtn").onclick = () => operateLight("OFF");
 
 /* ==================================================
-   ADMIN PANEL LISTENER (Restored!)
+   ADMIN PANEL
 ================================================== */
-document.getElementById("adminBtn").onclick = function() {
+document.getElementById("adminBtn").onclick = () => {
     showAdmin();
     loadUsers();
-};
-
-document.getElementById("backBtn").onclick = function() {
-    showControl();
 };
 
 async function loadUsers() {
@@ -500,13 +492,14 @@ async function loadUsers() {
             const u = users[uid];
             const div = document.createElement("div");
             div.className = "userRow";
+            
             div.innerHTML = `
                 <div class="userName">${escapeHTML(u.name || "Unknown")}</div>
                 <div class="userEmail">${escapeHTML(u.email || "---")}</div>
                 <div class="userRole">Role: ${escapeHTML(u.role || "user")}</div>
             `;
             
-            // Don't let the admin deny themselves
+            // Allow admin to deny/allow others (but not themselves)
             if (uid !== auth.currentUser.uid) {
                 const btn = document.createElement("button");
                 btn.className = u.denied ? "denyBtn allowBtn" : "denyBtn";
@@ -518,24 +511,26 @@ async function loadUsers() {
         }
     } catch (error) {
         console.error(error);
-        list.innerHTML = `<div class="errorBox">Failed to load users.</div>`;
+        list.innerHTML = `<div class="errorBox">Failed to load users. Ensure you are an Admin.</div>`;
     }
 }
 
 async function toggleUser(uid, currentlyDenied) {
     try {
         await update(ref(db, "users/" + uid), { denied: !currentlyDenied });
-        loadUsers(); // Refresh the list
+        loadUsers(); 
     } catch (error) {
-        alert("Failed to update user access.");
+        console.error(error);
+        alert("Permission error. Failed to update user.");
     }
 }
 
 /* ==================================================
    LOGOUT & SECURITY
 ================================================== */
-document.getElementById("logoutBtn").onclick = () => signOut(auth);
-document.getElementById("adminLogoutBtn").onclick = () => signOut(auth);
+const doLogout = () => signOut(auth);
+document.getElementById("logoutBtn").onclick = doLogout;
+document.getElementById("adminLogoutBtn").onclick = doLogout;
 
 function escapeHTML(str) {
     return String(str)
