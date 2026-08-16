@@ -12,6 +12,10 @@
 
 <style>
 
+/* =========================
+   BASIC
+========================= */
+
 *{
     box-sizing:border-box;
 }
@@ -24,223 +28,410 @@ body{
     justify-content:center;
     align-items:center;
 
-    padding:20px;
-
     font-family:Arial,sans-serif;
 
-    background:#07111f;
+    background:
+    linear-gradient(
+        135deg,
+        #061326,
+        #073b4c,
+        #071d4d
+    );
+
     color:white;
 }
 
-.container{
-    width:100%;
-    max-width:430px;
 
-    background:#102333;
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+
+    width:92%;
+    max-width:430px;
 
     padding:30px;
 
-    border-radius:20px;
+    background:
+    rgba(8,35,48,0.96);
 
-    box-shadow:0 0 30px rgba(0,0,0,.5);
+    border-radius:22px;
+
+    box-shadow:
+    0 15px 50px rgba(0,0,0,.55);
 
     text-align:center;
 }
+
 
 .hidden{
     display:none !important;
 }
 
+
+/* =========================
+   HEADINGS
+========================= */
+
 h1{
-    margin-top:0;
+
+    margin:0 0 8px;
+
+    font-size:30px;
+
 }
+
 
 .subtitle{
-    color:#94a3b8;
+
+    color:#b7dce5;
+
     margin-bottom:25px;
+
 }
 
+
+/* =========================
+   INPUT
+========================= */
+
 input{
+
     width:100%;
 
-    padding:14px;
+    padding:15px;
 
     margin:8px 0;
 
     border-radius:10px;
 
-    border:1px solid #475569;
+    border:1px solid #607d8b;
 
-    background:#1e293b;
+    background:#263b46;
 
     color:white;
 
     font-size:16px;
 
     outline:none;
+
 }
+
 
 input:focus{
-    border-color:#38bdf8;
+
+    border-color:#00d9ff;
+
+    box-shadow:
+    0 0 10px
+    rgba(0,217,255,.35);
+
 }
 
+
+input::placeholder{
+
+    color:#cbd5e1;
+
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
 button{
+
     width:100%;
 
-    padding:14px;
+    padding:15px;
 
-    margin:8px 0;
+    margin:9px 0;
 
-    border:0;
+    border:none;
 
     border-radius:10px;
 
-    font-size:16px;
+    font-size:17px;
 
     font-weight:bold;
 
     cursor:pointer;
+
 }
+
 
 button:disabled{
+
     opacity:.6;
+
     cursor:not-allowed;
+
 }
+
 
 .login{
-    background:#2563eb;
+
+    background:#08aeea;
+
     color:white;
+
 }
+
 
 .signup{
-    background:#7c3aed;
+
+    background:#c026d3;
+
     color:white;
+
 }
+
 
 .on{
-    background:#16a34a;
+
+    background:#16c94b;
+
     color:white;
+
 }
+
 
 .off{
-    background:#dc2626;
+
+    background:#ff9f0a;
+
     color:white;
+
 }
+
+
+.admin{
+
+    background:
+    linear-gradient(
+        90deg,
+        #7c3aed,
+        #ec4899
+    );
+
+    color:white;
+
+}
+
 
 .logout{
-    background:#475569;
+
+    background:#64748b;
+
     color:white;
+
 }
 
-.adminButton{
-    background:#f59e0b;
-    color:#111827;
-}
 
 .back{
+
     background:#334155;
+
     color:white;
+
 }
 
-.allow{
-    background:#16a34a;
-    color:white;
-}
 
-.deny{
-    background:#dc2626;
-    color:white;
-}
-
-.link{
-    color:#60a5fa;
-    cursor:pointer;
-    margin-top:18px;
-}
-
-.message{
-    min-height:22px;
-    color:#f87171;
-}
-
-.success{
-    color:#4ade80;
-}
+/* =========================
+   STATUS
+========================= */
 
 .status{
-    margin:20px 0;
 
-    padding:18px;
-
-    border-radius:12px;
-
-    background:#172b3a;
+    margin:25px 0;
 
     font-size:25px;
 
     font-weight:bold;
+
 }
 
-.operation{
-    margin-top:20px;
 
-    padding:15px;
+.info{
 
-    border-radius:12px;
-
-    background:#172b3a;
+    color:#cbd5e1;
 
     line-height:1.8;
+
 }
 
-.adminHeader{
-    margin-bottom:20px;
+
+/* =========================
+   LINKS
+========================= */
+
+.link{
+
+    color:#69ddff;
+
+    cursor:pointer;
+
+    margin-top:18px;
+
 }
 
-.adminBadge{
-    display:inline-block;
 
-    padding:6px 14px;
+/* =========================
+   MESSAGES
+========================= */
 
-    border-radius:20px;
+.message{
 
-    background:#f59e0b;
+    min-height:24px;
 
-    color:#111827;
+    margin-top:12px;
 
-    font-weight:bold;
+    color:#ff7070;
+
+    font-size:14px;
+
+    line-height:1.5;
+
 }
 
-.userCard{
-    background:#172b3a;
+
+.success{
+
+    color:#4ade80;
+
+}
+
+
+/* =========================
+   ADMIN USER LIST
+========================= */
+
+.adminBox{
+
+    margin-top:15px;
 
     padding:15px;
 
-    margin:10px 0;
-
     border-radius:12px;
 
+    background:#142536;
+
     text-align:left;
+
+    max-height:350px;
+
+    overflow-y:auto;
+
 }
+
+
+.userRow{
+
+    padding:12px 0;
+
+    border-bottom:
+    1px solid #334155;
+
+}
+
+
+.userRow:last-child{
+
+    border-bottom:none;
+
+}
+
 
 .userName{
-    font-size:18px;
+
     font-weight:bold;
+
+    font-size:16px;
+
 }
+
 
 .userEmail{
+
     color:#94a3b8;
-    margin-top:5px;
+
+    font-size:13px;
+
+    margin-top:4px;
+
 }
+
 
 .userRole{
-    color:#38bdf8;
-    margin-top:8px;
+
+    color:#67e8f9;
+
+    font-size:13px;
+
+    margin-top:4px;
+
 }
 
-.userStatus{
-    margin-top:5px;
-    margin-bottom:8px;
+
+.denyBtn{
+
+    width:auto;
+
+    padding:8px 12px;
+
+    margin-top:8px;
+
+    background:#dc2626;
+
+    color:white;
+
+    font-size:13px;
+
+}
+
+
+.allowBtn{
+
+    background:#16a34a;
+
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+
+    color:#67e8f9;
+
+    font-size:15px;
+
+}
+
+
+/* =========================
+   ERROR BOX
+========================= */
+
+.errorBox{
+
+    margin-top:15px;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    background:#3f1515;
+
+    color:#ff9b9b;
+
+    font-size:12px;
+
+    word-break:break-word;
+
 }
 
 </style>
@@ -252,16 +443,19 @@ button:disabled{
 
 
 <!-- ==================================================
-     LOGIN
+     LOGIN PAGE
 ================================================== -->
 
-<div id="loginPage" class="container">
+<div
+    id="loginPage"
+    class="container">
 
     <h1>🔐 Smart Light</h1>
 
-    <p class="subtitle">
+    <div class="subtitle">
         Secure Access
-    </p>
+    </div>
+
 
     <input
         type="email"
@@ -269,11 +463,13 @@ button:disabled{
         placeholder="Email"
         autocomplete="email">
 
+
     <input
         type="password"
         id="loginPassword"
         placeholder="Password"
         autocomplete="current-password">
+
 
     <button
         id="loginBtn"
@@ -283,6 +479,13 @@ button:disabled{
 
     </button>
 
+
+    <div
+        id="loginMessage"
+        class="message">
+    </div>
+
+
     <p
         id="showSignup"
         class="link">
@@ -291,17 +494,12 @@ button:disabled{
 
     </p>
 
-    <p
-        id="loginMessage"
-        class="message">
-    </p>
-
 </div>
 
 
 
 <!-- ==================================================
-     SIGN UP
+     SIGNUP PAGE
 ================================================== -->
 
 <div
@@ -310,33 +508,34 @@ button:disabled{
 
     <h1>📝 Create Account</h1>
 
-    <p class="subtitle">
-        Register for Smart Light
-    </p>
+    <div class="subtitle">
+        Register New User
+    </div>
+
 
     <input
         type="text"
         id="signupName"
-        placeholder="Your Name"
-        autocomplete="name">
+        placeholder="Your Name">
+
 
     <input
         type="email"
         id="signupEmail"
-        placeholder="Email"
-        autocomplete="email">
+        placeholder="Email">
+
 
     <input
         type="password"
         id="signupPassword"
-        placeholder="Password"
-        autocomplete="new-password">
+        placeholder="Password">
+
 
     <input
         type="password"
         id="confirmPassword"
-        placeholder="Confirm Password"
-        autocomplete="new-password">
+        placeholder="Confirm Password">
+
 
     <button
         id="signupBtn"
@@ -346,6 +545,13 @@ button:disabled{
 
     </button>
 
+
+    <div
+        id="signupMessage"
+        class="message">
+    </div>
+
+
     <p
         id="showLogin"
         class="link">
@@ -354,17 +560,12 @@ button:disabled{
 
     </p>
 
-    <p
-        id="signupMessage"
-        class="message">
-    </p>
-
 </div>
 
 
 
 <!-- ==================================================
-     SMART LIGHT CONTROL
+     CONTROL PAGE
 ================================================== -->
 
 <div
@@ -373,7 +574,15 @@ button:disabled{
 
     <h1>💡 Smart Light</h1>
 
-    <p id="welcome"></p>
+
+    <div
+        id="welcome"
+        class="subtitle">
+
+        Welcome
+
+    </div>
+
 
     <div
         id="lightStatus"
@@ -383,6 +592,7 @@ button:disabled{
 
     </div>
 
+
     <button
         id="onBtn"
         class="on">
@@ -390,6 +600,7 @@ button:disabled{
         💡 TURN ON
 
     </button>
+
 
     <button
         id="offBtn"
@@ -399,29 +610,38 @@ button:disabled{
 
     </button>
 
-    <div class="operation">
+
+    <div class="info">
 
         Last operation:
 
         <br>
 
-        <b id="lastUser">---</b>
+        <b id="lastUser">
+            ---
+        </b>
 
         <br>
 
         Time:
 
-        <b id="lastTime">---</b>
+        <b id="lastTime">
+            ---
+        </b>
 
     </div>
 
+
+    <!-- ADMIN BUTTON -->
+
     <button
         id="adminBtn"
-        class="adminButton hidden">
+        class="admin hidden">
 
         👑 ADMIN PANEL
 
     </button>
+
 
     <button
         id="logoutBtn"
@@ -431,39 +651,43 @@ button:disabled{
 
     </button>
 
+
+    <div
+        id="controlMessage"
+        class="message">
+    </div>
+
 </div>
 
 
 
 <!-- ==================================================
-     ADMIN PANEL
+     ADMIN PAGE
 ================================================== -->
 
 <div
     id="adminPage"
     class="container hidden">
 
-    <div class="adminHeader">
+    <h1>👑 Admin Panel</h1>
 
-        <h1>👑 Admin Profile</h1>
+    <div class="subtitle">
 
-        <span class="adminBadge">
-            ADMIN
-        </span>
+        User Management
 
     </div>
 
-    <p id="adminWelcome"></p>
 
-    <h2>
-        Registered Users
-    </h2>
+    <div
+        id="usersList"
+        class="adminBox">
 
-    <div id="usersList">
-
-        Loading...
+        <div class="loading">
+            Loading users...
+        </div>
 
     </div>
+
 
     <button
         id="backBtn"
@@ -472,6 +696,7 @@ button:disabled{
         ← BACK
 
     </button>
+
 
     <button
         id="adminLogoutBtn"
@@ -496,7 +721,7 @@ import {
     initializeApp
 }
 from
-"https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+"https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
 
 import {
@@ -507,7 +732,7 @@ import {
     signOut
 }
 from
-"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+"https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 
 import {
@@ -519,7 +744,7 @@ import {
     onValue
 }
 from
-"https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+"https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
 
 
@@ -564,8 +789,10 @@ const firebaseConfig = {
 const app =
 initializeApp(firebaseConfig);
 
+
 const auth =
 getAuth(app);
+
 
 const db =
 getDatabase(app);
@@ -573,26 +800,7 @@ getDatabase(app);
 
 
 /* ==================================================
-   VARIABLES
-================================================== */
-
-/*
-   IMPORTANT:
-
-   During signup Firebase automatically signs in
-   the newly-created user.
-
-   We temporarily stop the auth observer from
-   processing that user before their database
-   profile is created.
-*/
-
-let creatingProfile = false;
-
-
-
-/* ==================================================
-   PAGE REFERENCES
+   PAGE VARIABLES
 ================================================== */
 
 const loginPage =
@@ -610,12 +818,12 @@ document.getElementById("adminPage");
 
 
 /* ==================================================
-   PAGE CONTROL
+   PAGE FUNCTIONS
 ================================================== */
 
-function hideAll(){
+function showLogin(){
 
-    loginPage.classList.add("hidden");
+    loginPage.classList.remove("hidden");
 
     signupPage.classList.add("hidden");
 
@@ -626,40 +834,115 @@ function hideAll(){
 }
 
 
-function showLogin(){
-
-    hideAll();
-
-    loginPage.classList.remove("hidden");
-
-}
-
-
 function showSignup(){
 
-    hideAll();
+    loginPage.classList.add("hidden");
 
     signupPage.classList.remove("hidden");
+
+    controlPage.classList.add("hidden");
+
+    adminPage.classList.add("hidden");
 
 }
 
 
 function showControl(){
 
-    hideAll();
+    loginPage.classList.add("hidden");
+
+    signupPage.classList.add("hidden");
 
     controlPage.classList.remove("hidden");
+
+    adminPage.classList.add("hidden");
 
 }
 
 
 function showAdmin(){
 
-    hideAll();
+    loginPage.classList.add("hidden");
+
+    signupPage.classList.add("hidden");
+
+    controlPage.classList.add("hidden");
 
     adminPage.classList.remove("hidden");
 
 }
+
+
+
+/* ==================================================
+   FIREBASE ERROR MESSAGE
+================================================== */
+
+function getErrorMessage(error){
+
+    console.error(error);
+
+    switch(error.code){
+
+        case "auth/invalid-credential":
+            return "Incorrect email or password.";
+
+        case "auth/invalid-email":
+            return "Invalid email address.";
+
+        case "auth/user-not-found":
+            return "User account not found.";
+
+        case "auth/wrong-password":
+            return "Incorrect password.";
+
+        case "auth/email-already-in-use":
+            return "Email already exists. Please login.";
+
+        case "auth/weak-password":
+            return "Password must contain at least 6 characters.";
+
+        case "auth/network-request-failed":
+            return "Network error. Check your internet.";
+
+        case "PERMISSION_DENIED":
+            return "Firebase Database permission denied.";
+
+        default:
+            return error.message ||
+                   "Unknown Firebase error.";
+
+    }
+
+}
+
+
+
+/* ==================================================
+   SHOW SIGNUP
+================================================== */
+
+document
+.getElementById("showSignup")
+.onclick = function(){
+
+    showSignup();
+
+};
+
+
+
+/* ==================================================
+   SHOW LOGIN
+================================================== */
+
+document
+.getElementById("showLogin")
+.onclick = function(){
+
+    showLogin();
+
+};
 
 
 
@@ -669,7 +952,7 @@ function showAdmin(){
 
 document
 .getElementById("loginBtn")
-.addEventListener("click", async () => {
+.onclick = async function(){
 
     const email =
     document
@@ -677,24 +960,22 @@ document
     .value
     .trim();
 
+
     const password =
     document
     .getElementById("loginPassword")
     .value;
 
+
     const message =
     document
     .getElementById("loginMessage");
-
-    const button =
-    document
-    .getElementById("loginBtn");
 
 
     message.textContent = "";
 
 
-    if(!email){
+    if(email === ""){
 
         message.textContent =
         "Please enter your email.";
@@ -704,7 +985,7 @@ document
     }
 
 
-    if(!password){
+    if(password === ""){
 
         message.textContent =
         "Please enter your password.";
@@ -714,86 +995,284 @@ document
     }
 
 
+    const button =
+    document.getElementById("loginBtn");
+
+
     button.disabled = true;
 
-    button.textContent = "LOGGING IN...";
+    button.textContent =
+    "LOGGING IN...";
 
 
     try{
 
+        /*
+          Firebase Authentication
+        */
+
+        const result =
         await signInWithEmailAndPassword(
             auth,
             email,
             password
         );
 
+
+        /*
+          Directly load the user's database
+          profile after successful login.
+        */
+
+        await loadUserProfile(
+            result.user
+        );
+
+
     }
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
+
 
         message.textContent =
-        getFirebaseError(error);
+        getErrorMessage(error);
 
-    }
-
-    finally{
 
         button.disabled = false;
 
-        button.textContent = "LOGIN";
+        button.textContent =
+        "LOGIN";
 
     }
 
-});
-
-
-
-/* ==================================================
-   OPEN SIGNUP
-================================================== */
-
-document
-.getElementById("showSignup")
-.onclick = () => {
-
-    document
-    .getElementById("loginMessage")
-    .textContent = "";
-
-    showSignup();
-
 };
 
 
 
 /* ==================================================
-   OPEN LOGIN
+   LOAD USER PROFILE
 ================================================== */
 
-document
-.getElementById("showLogin")
-.onclick = () => {
+async function loadUserProfile(user){
 
-    document
-    .getElementById("signupMessage")
-    .textContent = "";
+    if(!user){
 
-    showLogin();
+        showLogin();
 
-};
+        return;
+
+    }
+
+
+    try{
+
+        const userRef =
+        ref(
+            db,
+            "users/" + user.uid
+        );
+
+
+        const snapshot =
+        await get(userRef);
+
+
+        /*
+          IMPORTANT:
+          Authentication succeeded but database
+          profile does not exist.
+        */
+
+        if(!snapshot.exists()){
+
+            throw new Error(
+                "Authentication succeeded, but no user profile exists at /users/" +
+                user.uid
+            );
+
+        }
+
+
+        const data =
+        snapshot.val();
+
+
+        console.log(
+            "USER PROFILE:",
+            data
+        );
+
+
+        /* DENIED USER */
+
+        if(data.denied === true){
+
+            await signOut(auth);
+
+            throw new Error(
+                "Your account has been denied by the administrator."
+            );
+
+        }
+
+
+        /* SHOW CONTROL PAGE */
+
+        showControl();
+
+
+        document
+        .getElementById("welcome")
+        .textContent =
+        "Welcome, " +
+        (data.name || user.email);
+
+
+        /*
+          ADMIN CHECK
+        */
+
+        const role =
+        String(data.role || "")
+        .trim()
+        .toLowerCase();
+
+
+        const adminButton =
+        document.getElementById("adminBtn");
+
+
+        if(role === "admin"){
+
+            adminButton.classList.remove(
+                "hidden"
+            );
+
+            console.log(
+                "ADMIN LOGIN CONFIRMED"
+            );
+
+        }
+
+        else{
+
+            adminButton.classList.add(
+                "hidden"
+            );
+
+        }
+
+
+        startLightListener();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "PROFILE ERROR:",
+            error
+        );
+
+
+        document
+        .getElementById("loginMessage")
+        .textContent =
+        getErrorMessage(error);
+
+
+        /*
+          If profile cannot be loaded,
+          sign out to avoid a broken state.
+        */
+
+        await signOut(auth);
+
+        showLogin();
+
+    }
+
+}
 
 
 
 /* ==================================================
-   CREATE ACCOUNT
+   AUTH STATE
+================================================== */
+
+onAuthStateChanged(
+    auth,
+    async function(user){
+
+        console.log(
+            "AUTH STATE:",
+            user
+        );
+
+
+        /*
+          If already logged in when page
+          opens, restore the session.
+        */
+
+        if(user){
+
+            /*
+              Only load if currently on login/signup.
+            */
+
+            if(
+                !controlPage.classList.contains(
+                    "hidden"
+                )
+                &&
+                !adminPage.classList.contains(
+                    "hidden"
+                )
+            ){
+
+                return;
+
+            }
+
+
+            try{
+
+                await loadUserProfile(user);
+
+            }
+
+            catch(error){
+
+                console.error(error);
+
+            }
+
+        }
+
+        else{
+
+            showLogin();
+
+        }
+
+    }
+);
+
+
+
+/* ==================================================
+   SIGNUP
 ================================================== */
 
 document
 .getElementById("signupBtn")
-.addEventListener("click", async () => {
-
+.onclick = async function(){
 
     const name =
     document
@@ -826,15 +1305,10 @@ document
     .getElementById("signupMessage");
 
 
-    const button =
-    document
-    .getElementById("signupBtn");
-
-
     message.textContent = "";
 
 
-    if(!name){
+    if(name === ""){
 
         message.textContent =
         "Please enter your name.";
@@ -844,7 +1318,7 @@ document
     }
 
 
-    if(!email){
+    if(email === ""){
 
         message.textContent =
         "Please enter your email.";
@@ -874,20 +1348,20 @@ document
     }
 
 
+    const button =
+    document.getElementById("signupBtn");
+
+
     button.disabled = true;
 
     button.textContent =
     "CREATING...";
 
 
-    creatingProfile = true;
-
-
     try{
 
-
         /*
-           CREATE FIREBASE AUTH USER
+          Create Firebase Authentication account.
         */
 
         const result =
@@ -899,500 +1373,138 @@ document
 
 
         /*
-           CREATE DATABASE PROFILE
-
-           EVERY NEW ACCOUNT IS USER.
-           Nobody can create an admin account
-           from this form.
+          IMPORTANT:
+          Write the database profile BEFORE
+          loading the control page.
         */
 
         await set(
+
             ref(
                 db,
                 "users/" + result.user.uid
             ),
+
             {
 
-                name:name,
+                name: name,
 
-                email:email,
+                email: email,
 
-                role:"user",
+                role: "user",
 
-                denied:false
+                denied: false
 
             }
+
         );
 
 
-        message.classList.add("success");
+        message.className =
+        "message success";
+
 
         message.textContent =
-        "Account created successfully.";
+        "Account created successfully. Loading...";
 
 
         /*
-           Keep the new user signed in.
-           The auth observer will now process
-           the completed profile.
+          Now profile definitely exists.
         */
+
+        await loadUserProfile(
+            result.user
+        );
 
     }
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            "SIGNUP ERROR:",
+            error
+        );
 
-        message.classList.remove("success");
+
+        message.className =
+        "message";
+
 
         message.textContent =
-        getFirebaseError(error);
-
-        /*
-           If database profile creation failed,
-           sign the user out so the account does
-           not remain in a half-created state.
-        */
-
-        if(auth.currentUser){
-
-            try{
-
-                await signOut(auth);
-
-            }
-
-            catch(signOutError){
-
-                console.error(
-                    signOutError
-                );
-
-            }
-
-        }
+        getErrorMessage(error);
 
     }
 
-    finally{
 
-        creatingProfile = false;
+    button.disabled = false;
 
-        button.disabled = false;
+    button.textContent =
+    "CREATE ACCOUNT";
 
-        button.textContent =
-        "CREATE ACCOUNT";
-
-    }
-
-});
+};
 
 
 
 /* ==================================================
-   AUTH STATE OBSERVER
+   LIGHT LISTENER
 ================================================== */
 
-onAuthStateChanged(
-    auth,
-    async (user) => {
+let lightListenerStarted = false;
 
 
-        /*
-           Do nothing while signup is creating
-           the database profile.
-        */
+function startLightListener(){
 
-        if(creatingProfile){
+    if(lightListenerStarted){
 
-            return;
+        return;
 
-        }
+    }
 
 
-        /*
-           LOGGED OUT
-        */
-
-        if(!user){
-
-            showLogin();
-
-            return;
-
-        }
+    lightListenerStarted = true;
 
 
-        try{
+    const lightRef =
+    ref(db,"light");
 
 
-            /*
-               GET USER PROFILE
-            */
+    onValue(
 
-            const userRef =
-            ref(
-                db,
-                "users/" + user.uid
-            );
+        lightRef,
 
-
-            const snapshot =
-            await get(userRef);
-
-
-            if(!snapshot.exists()){
-
-                console.error(
-                    "Database profile missing for UID:",
-                    user.uid
-                );
-
-                await signOut(auth);
-
-                showLogin();
-
-                document
-                .getElementById(
-                    "loginMessage"
-                )
-                .textContent =
-                "User profile was not found in the database.";
-
-                return;
-
-            }
-
+        function(snapshot){
 
             const data =
             snapshot.val();
 
 
-            /*
-               CHECK ACCESS
-            */
-
-            if(data.denied === true){
-
-                await signOut(auth);
-
-                showLogin();
+            if(!data){
 
                 document
-                .getElementById(
-                    "loginMessage"
-                )
+                .getElementById("lightStatus")
                 .textContent =
-                "Your access has been denied by the administrator.";
+                "🔴 LIGHT OFF";
+
+                document
+                .getElementById("lastUser")
+                .textContent =
+                "---";
+
+                document
+                .getElementById("lastTime")
+                .textContent =
+                "---";
 
                 return;
 
             }
 
 
-            /*
-               WELCOME MESSAGE
-            */
-
-            document
-            .getElementById("welcome")
-            .textContent =
-            "Welcome, " +
-            (data.name || "User");
-
-
-            /*
-               ADMIN CHECK
-            */
-
-            if(data.role === "admin"){
+            if(data.status === "ON"){
 
                 document
-                .getElementById("adminBtn")
-                .classList
-                .remove("hidden");
-
-                document
-                .getElementById("adminWelcome")
+                .getElementById("lightStatus")
                 .textContent =
-                "Welcome, " +
-                (data.name || "Admin");
+                "💡 LIGHT ON";
 
             }
-
-            else{
-
-                document
-                .getElementById("adminBtn")
-                .classList
-                .add("hidden");
-
-            }
-
-
-            /*
-               SHOW CONTROL PAGE
-            */
-
-            showControl();
-
-        }
-
-        catch(error){
-
-            console.error(
-                "Auth state error:",
-                error
-            );
-
-            await signOut(auth);
-
-            showLogin();
-
-            document
-            .getElementById(
-                "loginMessage"
-            )
-            .textContent =
-            getFirebaseError(error);
-
-        }
-
-    }
-);
-
-
-
-/* ==================================================
-   LIGHT STATUS
-================================================== */
-
-onValue(
-    ref(db,"light"),
-    (snapshot) => {
-
-
-        const data =
-        snapshot.val();
-
-
-        if(!data){
-
-            document
-            .getElementById("lightStatus")
-            .textContent =
-            "🔴 LIGHT OFF";
-
-            document
-            .getElementById("lastUser")
-            .textContent =
-            "---";
-
-            document
-            .getElementById("lastTime")
-            .textContent =
-            "---";
-
-            return;
-
-        }
-
-
-        if(data.status === "ON"){
-
-            document
-            .getElementById("lightStatus")
-            .textContent =
-            "💡 LIGHT ON";
-
-        }
-
-        else{
-
-            document
-            .getElementById("lightStatus")
-            .textContent =
-            "🔴 LIGHT OFF";
-
-        }
-
-
-        document
-        .getElementById("lastUser")
-        .textContent =
-        data.lastUser || "---";
-
-
-        document
-        .getElementById("lastTime")
-        .textContent =
-        data.lastTime || "---";
-
-    },
-
-    (error) => {
-
-        console.error(
-            "Light database error:",
-            error
-        );
-
-    }
-);
-
-
-
-/* ==================================================
-   TURN LIGHT ON / OFF
-================================================== */
-
-async function operate(action){
-
-    const user =
-    auth.currentUser;
-
-
-    if(!user){
-
-        alert(
-            "Please login first."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-
-        const snapshot =
-        await get(
-            ref(
-                db,
-                "users/" + user.uid
-            )
-        );
-
-
-        if(!snapshot.exists()){
-
-            alert(
-                "User profile not found."
-            );
-
-            return;
-
-        }
-
-
-        const data =
-        snapshot.val();
-
-
-        if(data.denied === true){
-
-            alert(
-                "Access denied."
-            );
-
-            await signOut(auth);
-
-            return;
-
-        }
-
-
-        const now =
-        new Date().toLocaleString();
-
-
-        await set(
-            ref(db,"light"),
-            {
-
-                status:action,
-
-                lastUser:
-                data.name || "User",
-
-                lastTime:now
-
-            }
-        );
-
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            getFirebaseError(error)
-        );
-
-    }
-
-}
-
-
-
-/* ==================================================
-   ON BUTTON
-================================================== */
-
-document
-.getElementById("onBtn")
-.onclick = () => {
-
-    operate("ON");
-
-};
-
-
-
-/* ==================================================
-   OFF BUTTON
-================================================== */
-
-document
-.getElementById("offBtn")
-.onclick = () => {
-
-    operate("OFF");
-
-};
-
-
-
-/* ==================================================
-   ADMIN PANEL
-================================================== */
-
-document
-.getElementById("adminBtn")
-.onclick = async () => {
-
-
-    const user =
-    auth.currentUser;
-
-
-    if(!user){
-
-        return;
-
-    }
-
-
-    try{
-
-
-        const snapshot =
-        await get(
-            ref(
-                db,
-                "users/" + user.uid
-            )
-        );
