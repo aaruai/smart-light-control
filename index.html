@@ -47,41 +47,6 @@ body{
 ========================= */
 h1{ margin:0 0 8px; font-size:30px; }
 .subtitle{ color:#b7dce5; margin-bottom:25px; }
-.loader-text { font-size: 18px; font-weight: bold; color: #00d9ff; margin-top:15px; }
-
-/* =========================
-   PCB ANIMATION (1 SECOND)
-========================= */
-.pcb-svg {
-    width: 150px;
-    height: 150px;
-    filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.4));
-}
-.pcb-trace {
-    fill: none;
-    stroke-width: 3;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 300;
-    stroke-dashoffset: 300;
-}
-/* Flowing current timings (Speeded up to < 1 second) */
-.trace-1 { stroke: #00ffcc; animation: currentFlow 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-.trace-2 { stroke: #00d9ff; animation: currentFlow 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards; }
-.trace-3 { stroke: #c026d3; animation: currentFlow 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
-.trace-4 { stroke: #16c94b; animation: currentFlow 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards; }
-
-@keyframes currentFlow {
-    to { stroke-dashoffset: 0; }
-}
-
-.chip-glow {
-    animation: pulseChip 1s infinite alternate 0.6s;
-}
-@keyframes pulseChip {
-    from { fill: #102333; stroke: #334155; }
-    to { fill: #073b4c; stroke: #00d9ff; box-shadow: 0 0 20px #00d9ff; }
-}
 
 /* =========================
    INPUT
@@ -181,30 +146,6 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
 </head>
 
 <body>
-
-<!-- ==================================================
-     PCB LOADER
-================================================== -->
-<div id="loaderPage" class="container">
-    <svg class="pcb-svg" viewBox="0 0 200 200">
-        <!-- Base Traces (Dim) -->
-        <polyline points="20,20 60,20 80,40 80,80" fill="none" stroke="#102333" stroke-width="6"/>
-        <polyline points="180,20 140,20 120,40 120,80" fill="none" stroke="#102333" stroke-width="6"/>
-        <polyline points="20,180 60,180 80,160 80,120" fill="none" stroke="#102333" stroke-width="6"/>
-        <polyline points="180,180 140,180 120,160 120,120" fill="none" stroke="#102333" stroke-width="6"/>
-        
-        <!-- Animated Current Flow -->
-        <polyline class="pcb-trace trace-1" points="20,20 60,20 80,40 80,80" />
-        <polyline class="pcb-trace trace-2" points="180,20 140,20 120,40 120,80" />
-        <polyline class="pcb-trace trace-3" points="20,180 60,180 80,160 80,120" />
-        <polyline class="pcb-trace trace-4" points="180,180 140,180 120,160 120,120" />
-
-        <!-- Microcontroller IC -->
-        <rect class="chip-glow" x="80" y="80" width="40" height="40" fill="#102333" stroke="#334155" stroke-width="2" rx="4"/>
-        <circle cx="90" cy="90" r="2" fill="#334155" /> <!-- Pin 1 indicator -->
-    </svg>
-    <div class="loader-text" id="loaderText">Establishing Connection...</div>
-</div>
 
 <!-- ==================================================
      LOGIN PAGE
@@ -318,12 +259,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
+
+// Force local persistence so users stay logged in when they scan the QR code later
 setPersistence(auth, browserLocalPersistence);
 
 /* ==================================================
-   PAGE ROUTING & DELAY QUEUE LOGIC
+   PAGE ROUTING 
 ================================================== */
-const loaderPage = document.getElementById("loaderPage");
 const loginPage = document.getElementById("loginPage");
 const signupPage = document.getElementById("signupPage");
 const controlPage = document.getElementById("controlPage");
@@ -331,7 +273,6 @@ const adminPage = document.getElementById("adminPage");
 let myChart = null; 
 
 function hideAll() {
-    loaderPage.classList.add("hidden");
     loginPage.classList.add("hidden");
     signupPage.classList.add("hidden");
     controlPage.classList.add("hidden");
@@ -354,36 +295,13 @@ function getErrorMessage(error) {
 }
 
 /* ==================================================
-   BULLETPROOF 1-SECOND TIMER
-================================================== */
-let isAppReady = false;
-let queuedPage = null; // Will store the function to run after 1 sec
-
-// Start a 1 second timer immediately upon page load
-setTimeout(() => {
-    isAppReady = true;
-    if (queuedPage) {
-        queuedPage(); // Execute the page switch if Firebase finished early
-    }
-}, 1000); // Exactly 1000ms delay
-
-// Helper function to safely route the user
-function routeTo(pageFunction) {
-    if (isAppReady) {
-        pageFunction(); // If 1 second has already passed, show immediately
-    } else {
-        queuedPage = pageFunction; // Wait for the 1 second timer to finish
-    }
-}
-
-/* ==================================================
-   AUTH STATE CHECK
+   AUTH STATE CHECK (INSTANT LOAD)
 ================================================== */
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         await loadUserProfile(user);
     } else {
-        routeTo(showLogin);
+        showLogin();
     }
 });
 
@@ -392,13 +310,17 @@ async function loadUserProfile(user) {
         const userRef = ref(db, "users/" + user.uid);
         let snapshot = await get(userRef);
 
+        // Auto-recovery if database profile is missing
         if (!snapshot.exists()) {
             await set(userRef, { name: user.email.split('@')[0], email: user.email, role: "user", denied: false });
             snapshot = await get(userRef); 
         }
 
         const data = snapshot.val();
-        if (data.denied === true) throw new Error("Access denied.");
+        
+        if (data.denied === true) {
+            throw new Error("Access denied by Administrator.");
+        }
 
         document.getElementById("welcome").textContent = "Welcome, " + (data.name || user.email);
         
@@ -409,12 +331,12 @@ async function loadUserProfile(user) {
         }
 
         startLightListener();
-        routeTo(showControl); // Safely trigger the routing
+        showControl(); // Instantly show control panel
 
     } catch (error) {
         console.error("Auth Load Error:", error);
         await signOut(auth);
-        routeTo(showLogin);
+        showLogin();
     }
 }
 
@@ -425,6 +347,9 @@ document.getElementById("loginBtn").onclick = async () => {
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
     const button = document.getElementById("loginBtn");
+    
+    if(!email || !password) return;
+    
     button.disabled = true; button.textContent = "LOGGING IN...";
     try { 
         await signInWithEmailAndPassword(auth, email, password); 
@@ -439,6 +364,8 @@ document.getElementById("signupBtn").onclick = async () => {
     const email = document.getElementById("signupEmail").value.trim();
     const password = document.getElementById("signupPassword").value;
     const button = document.getElementById("signupBtn");
+    
+    if(!name || !email || !password) return;
     if (password !== document.getElementById("confirmPassword").value) return;
     
     button.disabled = true; button.textContent = "CREATING...";
@@ -452,7 +379,7 @@ document.getElementById("signupBtn").onclick = async () => {
 };
 
 /* ==================================================
-   LIGHT CONTROLS
+   LIGHT CONTROLS & LOGGING
 ================================================== */
 let listenerActive = false;
 
@@ -565,4 +492,40 @@ async function loadAnalytics() {
 
 async function loadUsers() {
     const list = document.getElementById("usersList");
-    list.innerHTML = `<div class="loading">Loading u
+    list.innerHTML = `<div class="loading">Loading users...</div>`;
+    try {
+        const snap = await get(ref(db, "users"));
+        list.innerHTML = "";
+        const users = snap.val();
+        for (const uid in users) {
+            const u = users[uid];
+            const div = document.createElement("div");
+            div.className = "userRow";
+            div.innerHTML = `<div class="userName">${escapeHTML(u.name)}</div><div class="userEmail">${escapeHTML(u.email)}</div><div class="userRole">Role: ${escapeHTML(u.role)}</div>`;
+            if (uid !== auth.currentUser.uid) {
+                const btn = document.createElement("button");
+                btn.className = u.denied ? "denyBtn allowBtn" : "denyBtn";
+                btn.textContent = u.denied ? "✅ ALLOW" : "🚫 DENY";
+                btn.onclick = async () => { await update(ref(db, "users/" + uid), { denied: !u.denied }); loadUsers(); };
+                div.appendChild(btn);
+            }
+            list.appendChild(div);
+        }
+    } catch (e) { list.innerHTML = `<div class="errorBox">Failed to load.</div>`; }
+}
+
+const doLogout = () => { signOut(auth).then(() => { location.reload(); }); }; // Reset state completely on logout
+document.getElementById("logoutBtn").onclick = doLogout;
+document.getElementById("adminLogoutBtn").onclick = doLogout;
+
+function escapeHTML(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+</script>
+</body>
+</html>
