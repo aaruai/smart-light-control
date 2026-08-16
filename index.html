@@ -50,7 +50,7 @@ h1{ margin:0 0 8px; font-size:30px; }
 .loader-text { font-size: 18px; font-weight: bold; color: #00d9ff; margin-top:15px; }
 
 /* =========================
-   PCB ANIMATION
+   PCB ANIMATION (1 SECOND)
 ========================= */
 .pcb-svg {
     width: 150px;
@@ -65,18 +65,18 @@ h1{ margin:0 0 8px; font-size:30px; }
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
 }
-/* Flowing current timings */
-.trace-1 { stroke: #00ffcc; animation: currentFlow 2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-.trace-2 { stroke: #00d9ff; animation: currentFlow 2s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
-.trace-3 { stroke: #c026d3; animation: currentFlow 2s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards; }
-.trace-4 { stroke: #16c94b; animation: currentFlow 2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards; }
+/* Flowing current timings (Speeded up to < 1 second) */
+.trace-1 { stroke: #00ffcc; animation: currentFlow 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.trace-2 { stroke: #00d9ff; animation: currentFlow 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards; }
+.trace-3 { stroke: #c026d3; animation: currentFlow 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
+.trace-4 { stroke: #16c94b; animation: currentFlow 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards; }
 
 @keyframes currentFlow {
     to { stroke-dashoffset: 0; }
 }
 
 .chip-glow {
-    animation: pulseChip 1.5s infinite alternate 1.8s;
+    animation: pulseChip 1s infinite alternate 0.6s;
 }
 @keyframes pulseChip {
     from { fill: #102333; stroke: #334155; }
@@ -183,7 +183,7 @@ button:disabled{ opacity:.6; cursor:not-allowed; }
 <body>
 
 <!-- ==================================================
-     PCB LOADER (2-Second Delay)
+     PCB LOADER
 ================================================== -->
 <div id="loaderPage" class="container">
     <svg class="pcb-svg" viewBox="0 0 200 200">
@@ -321,14 +321,14 @@ const db = getDatabase(app);
 setPersistence(auth, browserLocalPersistence);
 
 /* ==================================================
-   PAGE ROUTING
+   PAGE ROUTING & DELAY QUEUE LOGIC
 ================================================== */
 const loaderPage = document.getElementById("loaderPage");
 const loginPage = document.getElementById("loginPage");
 const signupPage = document.getElementById("signupPage");
 const controlPage = document.getElementById("controlPage");
 const adminPage = document.getElementById("adminPage");
-let myChart = null; // Holds the Chart.js instance
+let myChart = null; 
 
 function hideAll() {
     loaderPage.classList.add("hidden");
@@ -354,18 +354,36 @@ function getErrorMessage(error) {
 }
 
 /* ==================================================
-   AUTH & ANIMATION DELAY
+   BULLETPROOF 1-SECOND TIMER
 ================================================== */
-const appStartTime = Date.now();
+let isAppReady = false;
+let queuedPage = null; // Will store the function to run after 1 sec
 
+// Start a 1 second timer immediately upon page load
+setTimeout(() => {
+    isAppReady = true;
+    if (queuedPage) {
+        queuedPage(); // Execute the page switch if Firebase finished early
+    }
+}, 1000); // Exactly 1000ms delay
+
+// Helper function to safely route the user
+function routeTo(pageFunction) {
+    if (isAppReady) {
+        pageFunction(); // If 1 second has already passed, show immediately
+    } else {
+        queuedPage = pageFunction; // Wait for the 1 second timer to finish
+    }
+}
+
+/* ==================================================
+   AUTH STATE CHECK
+================================================== */
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         await loadUserProfile(user);
     } else {
-        // Enforce a strict 2.5 second delay so the PCB animation finishes
-        const elapsed = Date.now() - appStartTime;
-        const delay = Math.max(0, 2500 - elapsed);
-        setTimeout(showLogin, delay);
+        routeTo(showLogin);
     }
 });
 
@@ -391,22 +409,12 @@ async function loadUserProfile(user) {
         }
 
         startLightListener();
-
-        // Enforce 2.5 second delay so PCB animation completes before showing controls
-        const elapsed = Date.now() - appStartTime;
-        const delay = Math.max(0, 2500 - elapsed);
-        
-        if(delay > 0) {
-            document.getElementById("loaderText").textContent = "Authenticating...";
-        }
-        
-        setTimeout(() => {
-            showControl();
-        }, delay);
+        routeTo(showControl); // Safely trigger the routing
 
     } catch (error) {
+        console.error("Auth Load Error:", error);
         await signOut(auth);
-        showLogin();
+        routeTo(showLogin);
     }
 }
 
@@ -416,23 +424,35 @@ async function loadUserProfile(user) {
 document.getElementById("loginBtn").onclick = async () => {
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
-    try { await signInWithEmailAndPassword(auth, email, password); } 
-    catch (e) { document.getElementById("loginMessage").textContent = getErrorMessage(e); }
+    const button = document.getElementById("loginBtn");
+    button.disabled = true; button.textContent = "LOGGING IN...";
+    try { 
+        await signInWithEmailAndPassword(auth, email, password); 
+    } catch (e) { 
+        document.getElementById("loginMessage").textContent = getErrorMessage(e); 
+        button.disabled = false; button.textContent = "LOGIN";
+    }
 };
 
 document.getElementById("signupBtn").onclick = async () => {
     const name = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim();
     const password = document.getElementById("signupPassword").value;
+    const button = document.getElementById("signupBtn");
     if (password !== document.getElementById("confirmPassword").value) return;
+    
+    button.disabled = true; button.textContent = "CREATING...";
     try {
         const result = await createUserWithEmailAndPassword(auth, email, password);
         await set(ref(db, "users/" + result.user.uid), { name, email, role: "user", denied: false });
-    } catch (e) { document.getElementById("signupMessage").textContent = getErrorMessage(e); }
+    } catch (e) { 
+        document.getElementById("signupMessage").textContent = getErrorMessage(e); 
+        button.disabled = false; button.textContent = "CREATE ACCOUNT";
+    }
 };
 
 /* ==================================================
-   LIGHT CONTROLS (NOW PUSHES TO LOGS)
+   LIGHT CONTROLS
 ================================================== */
 let listenerActive = false;
 
@@ -456,19 +476,16 @@ async function operateLight(action) {
         const snap = await get(ref(db, "users/" + user.uid));
         if (snap.val().denied) return alert("Access denied.");
         
-        // 1. Update Light Status
         await set(ref(db, "light"), {
             status: action,
             lastUser: snap.val().name || "User",
             lastTime: new Date().toLocaleString()
         });
 
-        // 2. Push to Analytics Logs
         await push(ref(db, "logs"), {
             action: action,
             timestamp: Date.now()
         });
-
     } catch (error) {
         alert("Failed to operate light.");
     }
@@ -495,10 +512,7 @@ async function loadAnalytics() {
         let totalOn = 0;
         let totalOff = 0;
         
-        // Group logs by Date string (Last 7 Days)
         const dateCounts = {};
-        
-        // Setup empty bins for the last 7 days so the graph always looks full
         for(let i=6; i>=0; i--) {
             const d = new Date();
             d.setDate(d.getDate() - i);
@@ -517,40 +531,23 @@ async function loadAnalytics() {
             }
         }
 
-        // Update Top Stats
         document.getElementById("totalOn").textContent = totalOn;
         document.getElementById("totalOff").textContent = totalOff;
 
-        // Prepare Data for Chart
         const labels = Object.keys(dateCounts);
         const dataOn = labels.map(date => dateCounts[date].on);
         const dataOff = labels.map(date => dateCounts[date].off);
 
-        // Draw Chart.js Graph
         const ctx = document.getElementById('analyticsChart').getContext('2d');
-        if (myChart) myChart.destroy(); // Clear old chart
+        if (myChart) myChart.destroy(); 
         
         myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [
-                    {
-                        label: 'Turned ON',
-                        data: dataOn,
-                        borderColor: '#16c94b',
-                        backgroundColor: 'rgba(22, 201, 75, 0.2)',
-                        fill: true,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Turned OFF',
-                        data: dataOff,
-                        borderColor: '#ff9f0a',
-                        backgroundColor: 'rgba(255, 159, 10, 0.2)',
-                        fill: true,
-                        tension: 0.4
-                    }
+                    { label: 'Turned ON', data: dataOn, borderColor: '#16c94b', backgroundColor: 'rgba(22, 201, 75, 0.2)', fill: true, tension: 0.4 },
+                    { label: 'Turned OFF', data: dataOff, borderColor: '#ff9f0a', backgroundColor: 'rgba(255, 159, 10, 0.2)', fill: true, tension: 0.4 }
                 ]
             },
             options: {
@@ -563,11 +560,9 @@ async function loadAnalytics() {
             }
         });
 
-    } catch (e) {
-        console.error("Error loading analytics", e);
-    }
+    } catch (e) { console.error("Error loading analytics", e); }
 }
 
 async function loadUsers() {
     const list = document.getElementById("usersList");
-    list.innerHTML = `<div class="l
+    list.innerHTML = `<div class="loading">Loading u
