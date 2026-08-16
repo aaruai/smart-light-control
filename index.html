@@ -1,128 +1,956 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Light Control</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #111827;
-      color: white;
-      padding: 30px;
-    }
+<meta charset="UTF-8">
 
-    .box {
-      max-width: 400px;
-      margin: auto;
-      background: #1f2937;
-      padding: 30px;
-      border-radius: 20px;
-    }
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    button {
-      width: 80%;
-      padding: 15px;
-      margin: 10px;
-      border: none;
-      border-radius: 10px;
-      font-size: 18px;
-      cursor: pointer;
-    }
+<title>Smart Light Control</title>
 
-    .on {
-      background: #22c55e;
-      color: white;
-    }
+<style>
 
-    .off {
-      background: #ef4444;
-      color: white;
-    }
+*{
+box-sizing:border-box;
+}
 
-    #status {
-      font-size: 25px;
-      margin: 20px;
-    }
-  </style>
+body{
+
+margin:0;
+
+font-family:Arial,sans-serif;
+
+background:#050b14;
+
+color:white;
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+overflow:hidden;
+
+}
+
+
+/* PCB START SCREEN */
+
+#startup{
+
+position:fixed;
+
+inset:0;
+
+background:#02060b;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:100;
+
+transition:opacity 1s;
+
+}
+
+
+.pcb{
+
+width:320px;
+
+height:220px;
+
+position:relative;
+
+border:2px solid #16a34a;
+
+border-radius:15px;
+
+background:
+
+linear-gradient(90deg,
+transparent 49%,
+#123b24 50%,
+transparent 51%),
+
+linear-gradient(
+transparent 49%,
+#123b24 50%,
+transparent 51%);
+
+box-shadow:
+
+0 0 20px #16a34a,
+
+inset 0 0 30px #062b17;
+
+}
+
+
+.track{
+
+position:absolute;
+
+height:3px;
+
+background:#126b35;
+
+box-shadow:0 0 8px #22c55e;
+
+}
+
+
+.t1{
+width:180px;
+top:50px;
+left:20px;
+}
+
+.t2{
+width:220px;
+top:110px;
+left:60px;
+}
+
+.t3{
+width:150px;
+top:165px;
+left:30px;
+}
+
+
+.current{
+
+position:absolute;
+
+width:12px;
+
+height:12px;
+
+background:#fff;
+
+border-radius:50%;
+
+box-shadow:
+0 0 8px #22c55e,
+0 0 20px #22c55e;
+
+animation:flow 2s linear infinite;
+
+}
+
+
+.c1{
+top:44px;
+left:20px;
+}
+
+.c2{
+top:104px;
+left:60px;
+animation-delay:.7s;
+}
+
+.c3{
+top:159px;
+left:30px;
+animation-delay:1.3s;
+}
+
+
+@keyframes flow{
+
+0%{
+transform:translateX(0);
+}
+
+100%{
+transform:translateX(200px);
+}
+
+}
+
+
+#startup h1{
+
+margin-top:30px;
+
+letter-spacing:3px;
+
+}
+
+
+#startup p{
+
+color:#22c55e;
+
+}
+
+
+/* MAIN */
+
+.container{
+
+width:90%;
+
+max-width:420px;
+
+background:#111827;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:0 0 30px rgba(0,0,0,.5);
+
+text-align:center;
+
+}
+
+
+.hidden{
+
+display:none!important;
+
+}
+
+
+input{
+
+width:100%;
+
+padding:14px;
+
+margin:8px 0;
+
+border-radius:10px;
+
+border:1px solid #374151;
+
+background:#1f2937;
+
+color:white;
+
+font-size:16px;
+
+}
+
+
+button{
+
+width:100%;
+
+padding:14px;
+
+margin:8px 0;
+
+border:none;
+
+border-radius:10px;
+
+font-size:17px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+
+.login{
+
+background:#2563eb;
+
+color:white;
+
+}
+
+
+.signup{
+
+background:#7c3aed;
+
+color:white;
+
+}
+
+
+.on{
+
+background:#16a34a;
+
+color:white;
+
+}
+
+
+.off{
+
+background:#dc2626;
+
+color:white;
+
+}
+
+
+.logout{
+
+background:#475569;
+
+color:white;
+
+}
+
+
+.status{
+
+font-size:25px;
+
+margin:20px 0;
+
+}
+
+
+.link{
+
+color:#60a5fa;
+
+cursor:pointer;
+
+margin-top:15px;
+
+}
+
+
+.message{
+
+color:#f87171;
+
+min-height:20px;
+
+}
+
+
+</style>
+
 </head>
+
 
 <body>
 
-<div class="box">
-  <h1>💡 Smart Light Control</h1>
 
-  <p id="user">User: Arun</p>
+<!-- PCB ANIMATION -->
 
-  <div id="status">Status: OFF</div>
+<div id="startup">
 
-  <button class="on" onclick="turnOn()">TURN ON</button>
-  <button class="off" onclick="turnOff()">TURN OFF</button>
+<h1>⚡ SMART LIGHT</h1>
 
-  <p id="time">Last Time: --</p>
+<div class="pcb">
+
+<div class="track t1"></div>
+
+<div class="track t2"></div>
+
+<div class="track t3"></div>
+
+<div class="current c1"></div>
+
+<div class="current c2"></div>
+
+<div class="current c3"></div>
+
 </div>
+
+<p>INITIALIZING SYSTEM...</p>
+
+</div>
+
+
+<!-- LOGIN -->
+
+<div id="loginPage"
+class="container hidden">
+
+<h1>🔐 Smart Light</h1>
+
+<p>Secure Access</p>
+
+<input
+type="email"
+id="loginEmail"
+placeholder="Email">
+
+<input
+type="password"
+id="loginPassword"
+placeholder="Password">
+
+<button
+class="login"
+id="loginBtn">
+
+LOGIN
+
+</button>
+
+<p
+class="link"
+id="showSignup">
+
+Create new account
+
+</p>
+
+<p
+class="message"
+id="loginMessage">
+</p>
+
+</div>
+
+
+<!-- SIGN UP -->
+
+<div id="signupPage"
+class="container hidden">
+
+<h1>📝 Create Account</h1>
+
+<input
+type="text"
+id="signupName"
+placeholder="Your Name">
+
+<input
+type="email"
+id="signupEmail"
+placeholder="Email">
+
+<input
+type="password"
+id="signupPassword"
+placeholder="Password">
+
+<input
+type="password"
+id="confirmPassword"
+placeholder="Confirm Password">
+
+<button
+class="signup"
+id="signupBtn">
+
+CREATE ACCOUNT
+
+</button>
+
+<p
+class="link"
+id="showLogin">
+
+Already have an account? Login
+
+</p>
+
+<p
+class="message"
+id="signupMessage">
+</p>
+
+</div>
+
+
+<!-- CONTROL -->
+
+<div id="controlPage"
+class="container hidden">
+
+<h1>💡 Smart Light</h1>
+
+<p id="welcome"></p>
+
+<div
+class="status"
+id="lightStatus">
+
+🔴 LIGHT OFF
+
+</div>
+
+<button
+class="on"
+id="onBtn">
+
+💡 TURN ON
+
+</button>
+
+<button
+class="off"
+id="offBtn">
+
+🔴 TURN OFF
+
+</button>
+
+<p>
+
+Last operation:
+
+<br>
+
+<b id="lastUser">---</b>
+
+<br>
+
+Time:
+
+<b id="lastTime">---</b>
+
+</p>
+
+<button
+class="logout"
+id="logoutBtn">
+
+LOGOUT
+
+</button>
+
+</div>
+
 
 <script type="module">
 
+
 import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
 
 import {
-  getDatabase,
-  ref,
-  set,
-  onValue
-} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+getAuth,
+
+createUserWithEmailAndPassword,
+
+signInWithEmailAndPassword,
+
+onAuthStateChanged,
+
+signOut
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+
+getDatabase,
+
+ref,
+
+get,
+
+set,
+
+onValue
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+
+/* FIREBASE */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA4C0zhOuAGTSbLVVfCaMerVHiVLyhEU60",
-  authDomain: "smart-light-control-d0b37.firebaseapp.com",
-  databaseURL: "https://smart-light-control-d0b37-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "smart-light-control-d0b37",
-  storageBucket: "smart-light-control-d0b37.firebasestorage.app",
-  messagingSenderId: "318812348687",
-  appId: "1:318812348687:web:8fefedd6a16de3eea85e7a"
+
+apiKey:"AIzaSyA4C0zhOuAGTSbLVVfCaMerVHiVLyhEU60",
+
+authDomain:
+"smart-light-control-d0b37.firebaseapp.com",
+
+databaseURL:
+"https://smart-light-control-d0b37-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:
+"smart-light-control-d0b37",
+
+storageBucket:
+"smart-light-control-d0b37.firebasestorage.app",
+
+messagingSenderId:
+"318812348687",
+
+appId:
+"1:318812348687:web:8fefedd6a16de3eea85e7a"
+
 };
 
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
 
-window.turnOn = function() {
-  set(ref(database, "light"), {
-    status: "ON",
-    lastUser: "Arun",
-    lastTime: new Date().toLocaleString()
-  });
-};
+const app=initializeApp(firebaseConfig);
 
-window.turnOff = function() {
-  set(ref(database, "light"), {
-    status: "OFF",
-    lastUser: "Arun",
-    lastTime: new Date().toLocaleString()
-  });
-};
+const auth=getAuth(app);
 
-onValue(ref(database, "light"), (snapshot) => {
+const db=getDatabase(app);
 
-  const data = snapshot.val();
 
-  if (data) {
-    document.getElementById("status").innerText =
-      "Status: " + data.status;
+/* ELEMENTS */
 
-    document.getElementById("user").innerText =
-      "Last User: " + (data.lastUser || "None");
+const startup=
+document.getElementById("startup");
 
-    document.getElementById("time").innerText =
-      "Last Time: " + (data.lastTime || "--");
-  }
+const loginPage=
+document.getElementById("loginPage");
+
+const signupPage=
+document.getElementById("signupPage");
+
+const controlPage=
+document.getElementById("controlPage");
+
+
+/* STARTUP ANIMATION */
+
+setTimeout(()=>{
+
+startup.style.opacity="0";
+
+setTimeout(()=>{
+
+startup.classList.add("hidden");
+
+showCorrectPage();
+
+},1000);
+
+},3000);
+
+
+/* PAGE SWITCH */
+
+function showCorrectPage(){
+
+if(auth.currentUser){
+
+controlPage.classList.remove("hidden");
+
+}else{
+
+loginPage.classList.remove("hidden");
+
+}
+
+}
+
+
+/* LOGIN */
+
+document
+.getElementById("loginBtn")
+.addEventListener("click",async()=>{
+
+const email=
+document.getElementById("loginEmail").value;
+
+const password=
+document.getElementById("loginPassword").value;
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+}catch(error){
+
+document.getElementById(
+"loginMessage"
+).textContent=
+"Invalid email or password.";
+
+}
 
 });
+
+
+/* SHOW SIGNUP */
+
+document
+.getElementById("showSignup")
+.onclick=()=>{
+
+loginPage.classList.add("hidden");
+
+signupPage.classList.remove("hidden");
+
+};
+
+
+/* SHOW LOGIN */
+
+document
+.getElementById("showLogin")
+.onclick=()=>{
+
+signupPage.classList.add("hidden");
+
+loginPage.classList.remove("hidden");
+
+};
+
+
+/* CREATE ACCOUNT */
+
+document
+.getElementById("signupBtn")
+.addEventListener("click",async()=>{
+
+const name=
+document.getElementById("signupName").value;
+
+const email=
+document.getElementById("signupEmail").value;
+
+const password=
+document.getElementById("signupPassword").value;
+
+const confirm=
+document.getElementById("confirmPassword").value;
+
+
+if(password!==confirm){
+
+document.getElementById(
+"signupMessage"
+).textContent=
+"Passwords do not match.";
+
+return;
+
+}
+
+
+try{
+
+const result=
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+
+await set(
+ref(db,"users/"+result.user.uid),
+{
+
+name:name,
+
+email:email,
+
+role:"user",
+
+denied:false
+
+}
+
+);
+
+
+}catch(error){
+
+document.getElementById(
+"signupMessage"
+).textContent=
+error.message;
+
+}
+
+});
+
+
+/* AUTH STATE */
+
+onAuthStateChanged(auth,async(user)=>{
+
+if(!user)return;
+
+
+const userRef=
+ref(db,"users/"+user.uid);
+
+const snapshot=
+await get(userRef);
+
+
+if(!snapshot.exists())return;
+
+
+const data=snapshot.val();
+
+
+if(data.denied===true){
+
+alert(
+"Your access has been denied by the administrator."
+);
+
+await signOut(auth);
+
+return;
+
+}
+
+
+loginPage.classList.add("hidden");
+
+signupPage.classList.add("hidden");
+
+controlPage.classList.remove("hidden");
+
+
+document.getElementById(
+"welcome"
+).textContent=
+"Welcome, "+data.name;
+
+});
+
+
+/* LIGHT STATUS */
+
+onValue(
+ref(db,"light"),
+(snapshot)=>{
+
+const data=snapshot.val();
+
+if(!data)return;
+
+
+if(data.status==="ON"){
+
+document.getElementById(
+"lightStatus"
+).textContent=
+"💡 LIGHT ON";
+
+}else{
+
+document.getElementById(
+"lightStatus"
+).textContent=
+"🔴 LIGHT OFF";
+
+}
+
+
+document.getElementById(
+"lastUser"
+).textContent=
+data.lastUser||"---";
+
+
+document.getElementById(
+"lastTime"
+).textContent=
+data.lastTime||"---";
+
+});
+
+
+/* OPERATION */
+
+async function operate(action){
+
+const user=auth.currentUser;
+
+if(!user)return;
+
+
+const snapshot=
+await get(
+ref(db,"users/"+user.uid)
+);
+
+
+if(!snapshot.exists())return;
+
+
+const data=snapshot.val();
+
+
+if(data.denied===true){
+
+alert("Access denied.");
+
+return;
+
+}
+
+
+const now=
+new Date().toLocaleString();
+
+
+await set(
+ref(db,"light"),
+{
+
+status:action,
+
+lastUser:data.name,
+
+lastTime:now
+
+}
+
+);
+
+}
+
+
+document
+.getElementById("onBtn")
+.onclick=()=>operate("ON");
+
+
+document
+.getElementById("offBtn")
+.onclick=()=>operate("OFF");
+
+
+/* LOGOUT */
+
+document
+.getElementById("logoutBtn")
+.onclick=()=>{
+
+signOut(auth);
+
+};
+
 
 </script>
 
 </body>
+
 </html>
