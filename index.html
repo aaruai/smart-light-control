@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+content="width=device-width, initial-scale=1.0">
 
 <title>Smart Light Control</title>
 
@@ -22,173 +22,16 @@
 
 body{
     margin:0;
-    font-family:Arial,sans-serif;
-    background:#050b14;
+    font-family:Arial, sans-serif;
+    background:#07111f;
     color:white;
     min-height:100vh;
+
     display:flex;
     justify-content:center;
     align-items:center;
-}
 
-
-/* =========================
-   STARTUP SCREEN
-========================= */
-
-#startup{
-
-    position:fixed;
-    inset:0;
-
-    background:#02060b;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-
-    z-index:9999;
-
-    transition:opacity .25s ease;
-}
-
-#startup h1{
-
-    margin:0 0 25px 0;
-
-    letter-spacing:3px;
-
-    color:white;
-
-    text-shadow:
-        0 0 10px #22c55e,
-        0 0 20px #22c55e;
-}
-
-
-#startup p{
-
-    color:#22c55e;
-
-    font-weight:bold;
-
-    letter-spacing:1px;
-}
-
-
-/* PCB */
-
-.pcb{
-
-    width:320px;
-    height:220px;
-
-    position:relative;
-
-    border:2px solid #16a34a;
-
-    border-radius:15px;
-
-    background:
-    linear-gradient(
-        90deg,
-        transparent 49%,
-        #123b24 50%,
-        transparent 51%
-    ),
-
-    linear-gradient(
-        transparent 49%,
-        #123b24 50%,
-        transparent 51%
-    );
-
-    box-shadow:
-        0 0 20px #16a34a,
-        inset 0 0 30px #062b17;
-
-    overflow:hidden;
-}
-
-
-.track{
-
-    position:absolute;
-
-    height:3px;
-
-    background:#22c55e;
-
-    box-shadow:0 0 8px #22c55e;
-}
-
-
-.t1{
-    width:180px;
-    top:50px;
-    left:20px;
-}
-
-.t2{
-    width:220px;
-    top:110px;
-    left:60px;
-}
-
-.t3{
-    width:150px;
-    top:165px;
-    left:30px;
-}
-
-
-.current{
-
-    position:absolute;
-
-    width:12px;
-    height:12px;
-
-    background:white;
-
-    border-radius:50%;
-
-    box-shadow:
-        0 0 8px #22c55e,
-        0 0 20px #22c55e;
-
-    animation:flow 1.5s linear infinite;
-}
-
-
-.c1{
-    top:44px;
-    left:20px;
-}
-
-.c2{
-    top:104px;
-    left:60px;
-    animation-delay:.5s;
-}
-
-.c3{
-    top:159px;
-    left:30px;
-    animation-delay:1s;
-}
-
-
-@keyframes flow{
-
-    0%{
-        transform:translateX(0);
-    }
-
-    100%{
-        transform:translateX(200px);
-    }
+    padding:20px;
 }
 
 
@@ -197,19 +40,17 @@ body{
 ========================= */
 
 .container{
+    width:100%;
+    max-width:430px;
 
-    width:92%;
-
-    max-width:450px;
-
-    background:#111827;
+    background:#102333;
 
     padding:30px;
 
     border-radius:20px;
 
     box-shadow:
-        0 0 30px rgba(0,0,0,.5);
+        0 0 25px rgba(0,0,0,.5);
 
     text-align:center;
 }
@@ -221,12 +62,29 @@ body{
 
 
 /* =========================
+   HEADINGS
+========================= */
+
+h1{
+    margin-top:0;
+    margin-bottom:10px;
+}
+
+h2{
+    margin-top:0;
+}
+
+.subtitle{
+    color:#94a3b8;
+    margin-bottom:25px;
+}
+
+
+/* =========================
    INPUT
 ========================= */
 
-input,
-select{
-
+input{
     width:100%;
 
     padding:14px;
@@ -235,23 +93,19 @@ select{
 
     border-radius:10px;
 
-    border:1px solid #374151;
+    border:1px solid #334155;
 
-    background:#1f2937;
+    background:#1e293b;
 
     color:white;
 
     font-size:16px;
-}
-
-
-input:focus,
-select:focus{
 
     outline:none;
+}
 
-    border-color:#3b82f6;
-
+input:focus{
+    border-color:#38bdf8;
 }
 
 
@@ -260,7 +114,6 @@ select:focus{
 ========================= */
 
 button{
-
     width:100%;
 
     padding:14px;
@@ -278,11 +131,14 @@ button{
     cursor:pointer;
 }
 
-
 button:hover{
     opacity:.9;
 }
 
+
+/* =========================
+   BUTTON COLORS
+========================= */
 
 .login{
     background:#2563eb;
@@ -309,37 +165,40 @@ button:hover{
     color:white;
 }
 
-.adminBtn{
+.admin{
     background:#f59e0b;
     color:#111827;
 }
 
-.backBtn{
-    background:#64748b;
+.back{
+    background:#334155;
     color:white;
 }
 
 
 /* =========================
-   TEXT
+   LINKS
 ========================= */
 
 .link{
-
     color:#60a5fa;
-
     cursor:pointer;
-
-    margin-top:15px;
+    margin-top:18px;
 }
 
+
+/* =========================
+   MESSAGES
+========================= */
+
 .message{
-
     color:#f87171;
+    min-height:22px;
+    margin-top:10px;
+}
 
-    min-height:20px;
-
-    font-size:14px;
+.success{
+    color:#4ade80;
 }
 
 
@@ -348,12 +207,33 @@ button:hover{
 ========================= */
 
 .status{
+    font-size:25px;
+    font-weight:bold;
 
-    font-size:26px;
+    padding:18px;
 
     margin:20px 0;
 
-    font-weight:bold;
+    border-radius:12px;
+
+    background:#172b3a;
+}
+
+
+/* =========================
+   LAST OPERATION
+========================= */
+
+.operation{
+    margin-top:20px;
+
+    padding:15px;
+
+    background:#172b3a;
+
+    border-radius:12px;
+
+    line-height:1.8;
 }
 
 
@@ -361,145 +241,90 @@ button:hover{
    ADMIN
 ========================= */
 
-.adminTitle{
+.admin-header{
+    display:flex;
 
-    color:#fbbf24;
+    justify-content:space-between;
 
-    margin-bottom:5px;
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.admin-badge{
+    display:inline-block;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    background:#f59e0b;
+
+    color:#111827;
+
+    font-weight:bold;
+
+    font-size:13px;
 }
 
 
-.userCard{
-
-    background:#1f2937;
-
-    border:1px solid #374151;
-
-    border-radius:12px;
+.user-card{
+    background:#172b3a;
 
     padding:15px;
 
-    margin:12px 0;
+    border-radius:12px;
+
+    margin:10px 0;
 
     text-align:left;
 }
 
-
-.userName{
-
+.user-name{
     font-size:18px;
-
     font-weight:bold;
 }
 
+.user-email{
+    font-size:14px;
+    color:#94a3b8;
 
-.userEmail{
+    margin-top:5px;
+}
 
-    color:#9ca3af;
-
+.user-role{
     font-size:13px;
-
-    margin:5px 0 10px;
-}
-
-
-.badge{
-
-    display:inline-block;
-
-    padding:5px 9px;
-
-    border-radius:20px;
-
-    font-size:12px;
-
-    font-weight:bold;
-
-    margin-bottom:8px;
-}
-
-
-.badgeAdmin{
-    background:#f59e0b;
-    color:#111827;
-}
-
-
-.badgeUser{
-    background:#2563eb;
-    color:white;
-}
-
-
-.badgeDenied{
-    background:#dc2626;
-    color:white;
-}
-
-
-.badgeAllowed{
-    background:#16a34a;
-    color:white;
-}
-
-
-.adminActions{
-
-    display:flex;
-
-    gap:8px;
 
     margin-top:8px;
+
+    color:#38bdf8;
 }
 
-
-.adminActions button{
-
-    margin:0;
-
-    padding:10px;
-
+.user-status{
     font-size:13px;
+
+    margin-top:5px;
 }
 
 
-.allowBtn{
+.allow{
     background:#16a34a;
     color:white;
 }
 
-
-.denyBtn{
+.deny{
     background:#dc2626;
     color:white;
-}
-
-
-.roleBtn{
-    background:#8b5cf6;
-    color:white;
-}
-
-
-#usersList{
-
-    max-height:430px;
-
-    overflow-y:auto;
-
-    margin-top:15px;
 }
 
 
 /* =========================
-   LOADING
+   SMALL TEXT
 ========================= */
 
-.loading{
-
-    color:#60a5fa;
-
-    margin:15px;
+.small{
+    font-size:13px;
+    color:#94a3b8;
 }
 
 </style>
@@ -510,69 +335,42 @@ button:hover{
 <body>
 
 
-<!-- =====================================================
-     STARTUP
-===================================================== -->
+<!-- =========================
+     LOGIN PAGE
+========================= -->
 
-<div id="startup">
-
-    <h1>💡 SMART LIGHT</h1>
-
-    <div class="pcb">
-
-        <div class="track t1"></div>
-
-        <div class="track t2"></div>
-
-        <div class="track t3"></div>
-
-        <div class="current c1"></div>
-
-        <div class="current c2"></div>
-
-        <div class="current c3"></div>
-
-    </div>
-
-    <p>INITIALIZING SYSTEM...</p>
-
-</div>
-
-
-<!-- =====================================================
-     LOGIN
-===================================================== -->
-
-<div id="loginPage" class="container hidden">
+<div id="loginPage" class="container">
 
     <h1>🔐 Smart Light</h1>
 
-    <p>Secure Access</p>
+    <p class="subtitle">
+        Secure Access
+    </p>
 
     <input
         type="email"
         id="loginEmail"
-        placeholder="Email"
-        autocomplete="email"
-    >
+        placeholder="Email">
 
     <input
         type="password"
         id="loginPassword"
-        placeholder="Password"
-        autocomplete="current-password"
-    >
+        placeholder="Password">
 
     <button
         class="login"
         id="loginBtn">
+
         LOGIN
+
     </button>
 
     <p
         class="link"
         id="showSignup">
+
         Create new account
+
     </p>
 
     <p
@@ -583,51 +381,55 @@ button:hover{
 </div>
 
 
-<!-- =====================================================
-     SIGN UP
-===================================================== -->
 
-<div id="signupPage" class="container hidden">
+<!-- =========================
+     SIGN UP PAGE
+========================= -->
+
+<div
+    id="signupPage"
+    class="container hidden">
 
     <h1>📝 Create Account</h1>
+
+    <p class="subtitle">
+        Register for Smart Light
+    </p>
 
     <input
         type="text"
         id="signupName"
-        placeholder="Your Name"
-    >
+        placeholder="Your Name">
 
     <input
         type="email"
         id="signupEmail"
-        placeholder="Email"
-        autocomplete="email"
-    >
+        placeholder="Email">
 
     <input
         type="password"
         id="signupPassword"
-        placeholder="Password"
-        autocomplete="new-password"
-    >
+        placeholder="Password">
 
     <input
         type="password"
         id="confirmPassword"
-        placeholder="Confirm Password"
-        autocomplete="new-password"
-    >
+        placeholder="Confirm Password">
 
     <button
         class="signup"
         id="signupBtn">
+
         CREATE ACCOUNT
+
     </button>
 
     <p
         class="link"
         id="showLogin">
+
         Already have an account? Login
+
     </p>
 
     <p
@@ -638,11 +440,14 @@ button:hover{
 </div>
 
 
-<!-- =====================================================
-     USER CONTROL PAGE
-===================================================== -->
 
-<div id="controlPage" class="container hidden">
+<!-- =========================
+     USER CONTROL PAGE
+========================= -->
+
+<div
+    id="controlPage"
+    class="container hidden">
 
     <h1>💡 Smart Light</h1>
 
@@ -651,26 +456,35 @@ button:hover{
     <div
         class="status"
         id="lightStatus">
+
         🔴 LIGHT OFF
+
     </div>
+
 
     <button
         class="on"
         id="onBtn">
+
         💡 TURN ON
+
     </button>
+
 
     <button
         class="off"
         id="offBtn">
+
         🔴 TURN OFF
+
     </button>
 
-    <p>
 
-        Last operation:
+    <div class="operation">
 
-        <br>
+        <div>
+            Last operation:
+        </div>
 
         <b id="lastUser">---</b>
 
@@ -680,118 +494,97 @@ button:hover{
 
         <b id="lastTime">---</b>
 
-    </p>
+    </div>
 
 
     <!-- ADMIN BUTTON -->
 
     <button
-        class="adminBtn hidden"
+        class="admin hidden"
         id="adminBtn">
-        👑 ADMIN PROFILE
+
+        👑 ADMIN PANEL
+
     </button>
 
 
     <button
         class="logout"
         id="logoutBtn">
+
         LOGOUT
+
     </button>
 
 </div>
 
 
-<!-- =====================================================
+
+<!-- =========================
      ADMIN PAGE
-===================================================== -->
+========================= -->
 
-<div id="adminPage" class="container hidden">
+<div
+    id="adminPage"
+    class="container hidden">
 
-    <h1 class="adminTitle">👑 Admin Profile</h1>
+    <div class="admin-header">
+
+        <div>
+
+            <h1>👑 Admin Profile</h1>
+
+            <span class="admin-badge">
+                ADMIN
+            </span>
+
+        </div>
+
+    </div>
+
 
     <p id="adminWelcome"></p>
 
-    <hr>
 
-    <h3>👥 User Management</h3>
+    <h2>
+        Registered Users
+    </h2>
 
-    <p
-        id="adminMessage"
-        class="message">
-    </p>
 
-    <div
-        id="usersList">
+    <div id="usersList">
 
-        <p class="loading">
-            Loading users...
-        </p>
+        Loading users...
 
     </div>
 
 
     <button
-        class="backBtn"
-        id="backToControl">
+        class="back"
+        id="backBtn">
+
         ← BACK TO SMART LIGHT
+
     </button>
 
 
     <button
         class="logout"
-        id="adminLogout">
+        id="adminLogoutBtn">
+
         LOGOUT
+
     </button>
 
 </div>
 
 
-<!-- =====================================================
-     STARTUP SCRIPT
-     IMPORTANT:
-     This is NOT inside Firebase.
-===================================================== -->
-
-<script>
-
-/*
-    STARTUP = 2 SECONDS
-
-    Firebase cannot stop this timer.
-*/
-
-window.addEventListener("load", function(){
-
-    const startup =
-        document.getElementById("startup");
-
-    setTimeout(function(){
-
-        startup.style.opacity = "0";
-
-        setTimeout(function(){
-
-            startup.classList.add("hidden");
-
-        },250);
-
-    },1750);
-
-});
-
-</script>
-
-
-<!-- =====================================================
-     FIREBASE
-===================================================== -->
 
 <script type="module">
 
 
-/* =========================
+/* =====================================================
    FIREBASE IMPORTS
-========================= */
+===================================================== */
 
 import {
     initializeApp
@@ -823,9 +616,10 @@ from
 "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
 
 
-/* =========================
-   FIREBASE CONFIG
-========================= */
+
+/* =====================================================
+   FIREBASE CONFIGURATION
+===================================================== */
 
 const firebaseConfig = {
 
@@ -852,43 +646,49 @@ const firebaseConfig = {
 
     measurementId:
     "G-RHXP0YK5WK"
+
 };
 
 
-/* =========================
-   INITIALIZE
-========================= */
+
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
 
 const app =
-    initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
+
 
 const auth =
-    getAuth(app);
+getAuth(app);
+
 
 const db =
-    getDatabase(app);
+getDatabase(app);
 
 
-/* =========================
-   ELEMENTS
-========================= */
+
+/* =====================================================
+   GET HTML ELEMENTS
+===================================================== */
 
 const loginPage =
-    document.getElementById("loginPage");
+document.getElementById("loginPage");
 
 const signupPage =
-    document.getElementById("signupPage");
+document.getElementById("signupPage");
 
 const controlPage =
-    document.getElementById("controlPage");
+document.getElementById("controlPage");
 
 const adminPage =
-    document.getElementById("adminPage");
+document.getElementById("adminPage");
 
 
-/* =========================
-   HIDE ALL PAGES
-========================= */
+
+/* =====================================================
+   PAGE FUNCTION
+===================================================== */
 
 function hideAllPages(){
 
@@ -899,12 +699,14 @@ function hideAllPages(){
     controlPage.classList.add("hidden");
 
     adminPage.classList.add("hidden");
+
 }
 
 
-/* =========================
+
+/* =====================================================
    SHOW LOGIN
-========================= */
+===================================================== */
 
 function showLogin(){
 
@@ -915,9 +717,10 @@ function showLogin(){
 }
 
 
-/* =========================
+
+/* =====================================================
    SHOW SIGNUP
-========================= */
+===================================================== */
 
 function showSignup(){
 
@@ -928,9 +731,10 @@ function showSignup(){
 }
 
 
-/* =========================
-   SHOW CONTROL
-========================= */
+
+/* =====================================================
+   SHOW CONTROL PAGE
+===================================================== */
 
 function showControl(){
 
@@ -941,9 +745,10 @@ function showControl(){
 }
 
 
-/* =========================
-   SHOW ADMIN
-========================= */
+
+/* =====================================================
+   SHOW ADMIN PAGE
+===================================================== */
 
 function showAdmin(){
 
@@ -954,28 +759,32 @@ function showAdmin(){
 }
 
 
+
 /* =====================================================
    LOGIN
 ===================================================== */
 
 document
 .getElementById("loginBtn")
-.addEventListener("click", async function(){
+.addEventListener("click", async () => {
+
 
     const email =
-        document
-        .getElementById("loginEmail")
-        .value
-        .trim();
+    document
+    .getElementById("loginEmail")
+    .value
+    .trim();
+
 
     const password =
-        document
-        .getElementById("loginPassword")
-        .value;
+    document
+    .getElementById("loginPassword")
+    .value;
 
 
     const message =
-        document.getElementById("loginMessage");
+    document
+    .getElementById("loginMessage");
 
 
     message.textContent = "";
@@ -987,6 +796,7 @@ document
         "Please enter email and password.";
 
         return;
+
     }
 
 
@@ -999,74 +809,46 @@ document
         );
 
     }
+
     catch(error){
 
         console.error(error);
 
-        if(error.code ===
-            "auth/invalid-credential"){
-
-            message.textContent =
-            "Invalid email or password.";
-
-        }
-        else if(error.code ===
-            "auth/user-not-found"){
-
-            message.textContent =
-            "Account not found.";
-
-        }
-        else if(error.code ===
-            "auth/wrong-password"){
-
-            message.textContent =
-            "Wrong password.";
-
-        }
-        else{
-
-            message.textContent =
-            error.message;
-        }
+        message.textContent =
+        "Invalid email or password.";
 
     }
 
 });
 
 
+
 /* =====================================================
-   SIGNUP PAGE
+   OPEN SIGNUP
 ===================================================== */
 
 document
 .getElementById("showSignup")
-.addEventListener("click", function(){
-
-    document
-    .getElementById("loginMessage")
-    .textContent = "";
+.onclick = () => {
 
     showSignup();
 
-});
+};
+
 
 
 /* =====================================================
-   LOGIN PAGE
+   OPEN LOGIN
 ===================================================== */
 
 document
 .getElementById("showLogin")
-.addEventListener("click", function(){
-
-    document
-    .getElementById("signupMessage")
-    .textContent = "";
+.onclick = () => {
 
     showLogin();
 
-});
+};
+
 
 
 /* =====================================================
@@ -1075,39 +857,44 @@ document
 
 document
 .getElementById("signupBtn")
-.addEventListener("click", async function(){
+.addEventListener("click", async () => {
+
 
     const name =
-        document
-        .getElementById("signupName")
-        .value
-        .trim();
+    document
+    .getElementById("signupName")
+    .value
+    .trim();
+
 
     const email =
-        document
-        .getElementById("signupEmail")
-        .value
-        .trim();
+    document
+    .getElementById("signupEmail")
+    .value
+    .trim();
+
 
     const password =
-        document
-        .getElementById("signupPassword")
-        .value;
+    document
+    .getElementById("signupPassword")
+    .value;
+
 
     const confirm =
-        document
-        .getElementById("confirmPassword")
-        .value;
+    document
+    .getElementById("confirmPassword")
+    .value;
 
 
     const message =
-        document.getElementById("signupMessage");
+    document
+    .getElementById("signupMessage");
 
 
     message.textContent = "";
 
 
-    /* VALIDATION */
+    /* CHECK NAME */
 
     if(!name){
 
@@ -1115,8 +902,11 @@ document
         "Please enter your name.";
 
         return;
+
     }
 
+
+    /* CHECK EMAIL */
 
     if(!email){
 
@@ -1124,17 +914,23 @@ document
         "Please enter your email.";
 
         return;
+
     }
 
+
+    /* CHECK PASSWORD */
 
     if(password.length < 6){
 
         message.textContent =
-        "Password must contain at least 6 characters.";
+        "Password must be at least 6 characters.";
 
         return;
+
     }
 
+
+    /* CONFIRM PASSWORD */
 
     if(password !== confirm){
 
@@ -1142,27 +938,22 @@ document
         "Passwords do not match.";
 
         return;
+
     }
 
 
     try{
 
-        /*
-            Create Firebase Authentication account
-        */
 
         const result =
-            await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
 
-        /*
-            EVERY NEW ACCOUNT IS USER
-            NOT ADMIN
-        */
+        /* NEW USERS ARE ALWAYS NORMAL USERS */
 
         await set(
             ref(
@@ -1183,41 +974,28 @@ document
         );
 
 
+        message.classList.add("success");
+
         message.textContent =
         "Account created successfully.";
 
-        /*
-            onAuthStateChanged()
-            will automatically open
-            the Smart Light page.
-        */
 
     }
+
     catch(error){
 
         console.error(error);
 
+        message.classList.remove("success");
+
         if(error.code ===
-            "auth/email-already-in-use"){
+        "auth/email-already-in-use"){
 
             message.textContent =
-            "This email is already registered. Please LOGIN instead.";
+            "Email already in use. Please login.";
 
         }
-        else if(error.code ===
-            "auth/invalid-email"){
 
-            message.textContent =
-            "Invalid email address.";
-
-        }
-        else if(error.code ===
-            "auth/weak-password"){
-
-            message.textContent =
-            "Password is too weak.";
-
-        }
         else{
 
             message.textContent =
@@ -1230,65 +1008,61 @@ document
 });
 
 
+
 /* =====================================================
    AUTH STATE
 ===================================================== */
 
 onAuthStateChanged(
     auth,
-    async function(user){
+    async (user) => {
 
-        /*
-            Nobody logged in
-        */
+
+        /* USER LOGGED OUT */
 
         if(!user){
 
             showLogin();
 
             return;
+
         }
 
 
         try{
 
+
             const userRef =
-                ref(
-                    db,
-                    "users/" + user.uid
-                );
+            ref(
+                db,
+                "users/" + user.uid
+            );
 
 
             const snapshot =
-                await get(userRef);
+            await get(userRef);
 
 
-            /*
-                Authentication account exists
-                but database profile does not.
-            */
+            /* USER DATABASE RECORD NOT FOUND */
 
             if(!snapshot.exists()){
 
                 await signOut(auth);
 
                 alert(
-                    "User profile not found. Please contact administrator."
+                    "User profile not found in database."
                 );
 
-                showLogin();
-
                 return;
+
             }
 
 
             const data =
-                snapshot.val();
+            snapshot.val();
 
 
-            /*
-                BLOCKED USER
-            */
+            /* CHECK DENIED */
 
             if(data.denied === true){
 
@@ -1298,15 +1072,12 @@ onAuthStateChanged(
                     "Your access has been denied by the administrator."
                 );
 
-                showLogin();
-
                 return;
+
             }
 
 
-            /*
-                USER IS OK
-            */
+            /* WELCOME */
 
             document
             .getElementById("welcome")
@@ -1315,35 +1086,43 @@ onAuthStateChanged(
             (data.name || "User");
 
 
-            /*
-                ADMIN
-            */
+            /* ADMIN */
 
             if(data.role === "admin"){
 
                 document
                 .getElementById("adminBtn")
-                .classList.remove("hidden");
+                .classList
+                .remove("hidden");
+
+                document
+                .getElementById("adminWelcome")
+                .textContent =
+                "Welcome, " +
+                (data.name || "Admin");
 
             }
+
             else{
 
                 document
                 .getElementById("adminBtn")
-                .classList.add("hidden");
+                .classList
+                .add("hidden");
 
             }
 
 
             showControl();
 
+
         }
+
         catch(error){
 
-            console.error(error);
-
-            alert(
-                "Unable to load user profile."
+            console.error(
+                "Authentication error:",
+                error
             );
 
             await signOut(auth);
@@ -1354,16 +1133,18 @@ onAuthStateChanged(
 );
 
 
+
 /* =====================================================
    LIGHT STATUS
 ===================================================== */
 
 onValue(
     ref(db,"light"),
-    function(snapshot){
+    (snapshot) => {
+
 
         const data =
-            snapshot.val();
+        snapshot.val();
 
 
         if(!data){
@@ -1374,8 +1155,11 @@ onValue(
             "🔴 LIGHT OFF";
 
             return;
+
         }
 
+
+        /* STATUS */
 
         if(data.status === "ON"){
 
@@ -1385,6 +1169,7 @@ onValue(
             "💡 LIGHT ON";
 
         }
+
         else{
 
             document
@@ -1395,7 +1180,281 @@ onValue(
         }
 
 
+        /* LAST USER */
+
         document
         .getElementById("lastUser")
         .textContent =
-        da
+        data.lastUser || "---";
+
+
+        /* LAST TIME */
+
+        document
+        .getElementById("lastTime")
+        .textContent =
+        data.lastTime || "---";
+
+    }
+);
+
+
+
+/* =====================================================
+   LIGHT OPERATION
+===================================================== */
+
+async function operate(action){
+
+
+    const user =
+    auth.currentUser;
+
+
+    if(!user){
+
+        alert(
+            "Please login first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+
+        /* GET USER DATA */
+
+        const userRef =
+        ref(
+            db,
+            "users/" + user.uid
+        );
+
+
+        const snapshot =
+        await get(userRef);
+
+
+        if(!snapshot.exists()){
+
+            alert(
+                "User profile not found."
+            );
+
+            return;
+
+        }
+
+
+        const data =
+        snapshot.val();
+
+
+        /* DENIED CHECK */
+
+        if(data.denied === true){
+
+            alert(
+                "Access denied by administrator."
+            );
+
+            await signOut(auth);
+
+            return;
+
+        }
+
+
+        /* CURRENT TIME */
+
+        const now =
+        new Date()
+        .toLocaleString();
+
+
+        /* SAVE LIGHT STATUS */
+
+        await set(
+            ref(db,"light"),
+            {
+
+                status:action,
+
+                lastUser:
+                data.name || "User",
+
+                lastTime:now
+
+            }
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "Unable to update light."
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   TURN ON
+===================================================== */
+
+document
+.getElementById("onBtn")
+.onclick = () => {
+
+    operate("ON");
+
+};
+
+
+
+/* =====================================================
+   TURN OFF
+===================================================== */
+
+document
+.getElementById("offBtn")
+.onclick = () => {
+
+    operate("OFF");
+
+};
+
+
+
+/* =====================================================
+   ADMIN BUTTON
+===================================================== */
+
+document
+.getElementById("adminBtn")
+.onclick = async () => {
+
+
+    const user =
+    auth.currentUser;
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    try{
+
+
+        const snapshot =
+        await get(
+            ref(
+                db,
+                "users/" + user.uid
+            )
+        );
+
+
+        if(!snapshot.exists()){
+
+            return;
+
+        }
+
+
+        const data =
+        snapshot.val();
+
+
+        /* ONLY ADMIN */
+
+        if(data.role !== "admin"){
+
+            alert(
+                "Admin access required."
+            );
+
+            return;
+
+        }
+
+
+        loadUsers();
+
+        showAdmin();
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "Unable to open Admin Panel."
+        );
+
+    }
+
+};
+
+
+
+/* =====================================================
+   LOAD USERS
+===================================================== */
+
+async function loadUsers(){
+
+
+    const usersList =
+    document
+    .getElementById("usersList");
+
+
+    usersList.innerHTML =
+    "Loading users...";
+
+
+    try{
+
+
+        const snapshot =
+        await get(
+            ref(db,"users")
+        );
+
+
+        if(!snapshot.exists()){
+
+            usersList.innerHTML =
+            "<p>No users found.</p>";
+
+            return;
+
+        }
+
+
+        const users =
+        snapshot.val();
+
+
+        usersList.innerHTML = "";
+
+
+        Object.entries(users)
+        .forEach(
+            ([uid,user]) => {
